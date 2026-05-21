@@ -178,60 +178,60 @@ F138 and F133 are bugs that iter-1's recon never touched: F138 sits at the `goss
 
 ### Critical (2)
 
-**[F138 — Proposer broadcast strips locks/transfers + zeros signed anchor metadata; chain halts on any honest multi-node deployment](findings/drafts/F138-proposer-pipeline-strips-locks-transfers-and-signed-anchor-fields-from-wire-broadcast.md)** · **WP 0.97**
+**[F138 — Proposer broadcast strips locks/transfers + zeros signed anchor metadata; chain halts on any honest multi-node deployment](findings/F138-proposer-pipeline-strips-locks-transfers-and-signed-anchor-fields-from-wire-broadcast.md)** · **WP 0.97**
 `gossip_adapter::outbound_to_wire` hard-codes `locks: vec![], transfers: vec![]` and both `encode_hyper_block` / `decode_hyper_block` zero out `snapchain_anchor_*`, `missed_proposals`, `snapchain_range_*`. Peers recompute `signing_payload` over zeroed bytes → `SignatureVerificationFailed`; for the all-anchors-zero case the state-root replay also diverges → `StateRootMismatch`. The chain mechanically halts on any honest multi-node deployment past genesis. Validator also flagged `block_index.rs:35-63` as a THIRD production copy of the drop pattern (the finding had classified it as test-only).
 
-**[F133 — `FingerprintStore` writes bypass txn_batch on the gRPC simulate path → per-validator divergence → consensus fork via unauthenticated RPC](findings/drafts/F133-fingerprint-store-direct-db-writes-during-simulate-cause-fork-and-free-poisoning.md)** · **HC 0.75**
+**[F133 — `FingerprintStore` writes bypass txn_batch on the gRPC simulate path → per-validator divergence → consensus fork via unauthenticated RPC](findings/F133-fingerprint-store-direct-db-writes-during-simulate-cause-fork-and-free-poisoning.md)** · **HC 0.75**
 `FingerprintStore::insert` (`self.db.put`) and `uniqueness_score`'s eviction (`self.db.commit`) bypass the engine's `txn_batch`. `merge_message` runs on the gRPC `submit_message` simulate path; any unauth caller plants/evicts fingerprints on one validator's local DB. Validator narrowed: the finding's "fee_balance → account_root" intermediate mechanism is wrong (account_root is purely trie-of-message-hashes); actual fork is divergent accept/reject when a poisoned fee crosses the `HyperFeeInsufficient` threshold. Severity stands; prose needs correction.
 
 ### High (7)
 
-**[F091 — Cross-FID `lock_id` collision permanently strands victim's bridge-locked balance](findings/drafts/F091-lock-id-collision-across-fids-permanently-strands-victim-balance.md)** · **WP 0.97**
+**[F091 — Cross-FID `lock_id` collision permanently strands victim's bridge-locked balance](findings/F091-lock-id-collision-across-fids-permanently-strands-victim-balance.md)** · **WP 0.97**
 L2 per-FID `lock_id` dedup + L1 `claimed[lockId]` global nullifier + zero recovery path = any attacker with one funded FID can race the victim's burn and permanently nullify the L1 slot. Pinned test `same_lock_id_on_distinct_fids_is_allowed` literally asserts the bug.
 
-**[F105 — App-PoW receipts have no epoch binding; one captured receipt replays every future epoch indefinitely](findings/drafts/F105-app-usage-receipt-no-epoch-binding-cross-epoch-replay.md)** · **WP 0.93**
+**[F105 — App-PoW receipts have no epoch binding; one captured receipt replays every future epoch indefinitely](findings/F105-app-usage-receipt-no-epoch-binding-cross-epoch-replay.md)** · **WP 0.93**
 `AppUsageReceiptBody.timestamp` is signed but never compared against `current_epoch()`. The receipt-count consumer credits blindly. One captured byte-identical receipt saturates `MAX_RECEIPTS_PER_APP_PER_EPOCH = 10_000` per (user, app) pair as a *floor* on §7 App-PoW reward inflation. F101 family.
 
-**[F108 — DKLS signing trusts inner `parties.sender`; 1-packet panic-DoS + misattribution-blame](findings/drafts/F108-dkls-signing-trusts-inner-sender-for-routing-and-blame.md)** · **WP 0.95**
+**[F108 — DKLS signing trusts inner `parties.sender`; 1-packet panic-DoS + misattribution-blame](findings/F108-dkls-signing-trusts-inner-sender-for-routing-and-blame.md)** · **WP 0.95**
 `sign_phase2/3` dispatch `kept[..]` and abort-blame strings on attacker-controlled inner `parties.sender`. One inbound `Phase1Send` permanently crashes the victim's signing actor (no `catch_unwind`) or frames an innocent committee member. F107 family.
 
-**[F132 — `stage_charge_message_fee` reads accumulators from disk, not from the in-progress batch; same-FID fee-bearing messages silently free](findings/drafts/F132-stage-charge-message-fee-read-after-write-collapse.md)** · **WP 0.96**
+**[F132 — `stage_charge_message_fee` reads accumulators from disk, not from the in-progress batch; same-FID fee-bearing messages silently free](findings/F132-stage-charge-message-fee-read-after-write-collapse.md)** · **WP 0.96**
 Reads `fee_balance` / `total_fee_burned` / `proposer_fee_pot` via `self.db.get` instead of from `RocksDbTransactionBatch`. Successive same-FID messages in one chunk overwrite each other; only the last commits. Determinism-safe (no fork) but accounting silently breaks. Contradicts iter-1 H035.
 
-**[F107 — DKLS `step5` skips DLog verification for any `ProofCommitment` whose inner `index` matches the verifier's own party_index](findings/drafts/F107-dkls-step5-skips-verification-for-self-claimed-proof-commitment-index.md)** · **HC 0.85**
+**[F107 — DKLS `step5` skips DLog verification for any `ProofCommitment` whose inner `index` matches the verifier's own party_index](findings/F107-dkls-step5-skips-verification-for-self-claimed-proof-commitment-index.md)** · **HC 0.85**
 `t<n` produces silent ceremony-DoS via Lagrange cross-window mismatch; `t==n` produces silent group-pk corruption. Validator: titular "arbitrary-pk injection" overstated (attacker can't know DLog); per-recipient divergent-pk needs F023.
 
-**[F114 — DKG zero-share init trusts inner `parties.sender`/`receiver` bytes; three reachable primitives (DoS / misattribution / silent corruption)](findings/drafts/F114-dkls-zero-share-init-trusts-inner-parties-sender-receiver.md)** · **HC 0.85**
+**[F114 — DKG zero-share init trusts inner `parties.sender`/`receiver` bytes; three reachable primitives (DoS / misattribution / silent corruption)](findings/F114-dkls-zero-share-init-trusts-inner-parties-sender-receiver.md)** · **HC 0.85**
 DKG `phase4` dispatches on inner bytes; ceremony layer keys accumulator BTreeMaps on wire-sender; no cross-check. Primitives A (DoS) and B (framing) unconditional from one packet; C (silent ZeroShare-vec corruption surfacing at signing time with blame-less abort) needs F018/F023.
 
-**[F116 — KZG loader silently treats Lagrange-basis G1 points as monomial powers of τ](findings/drafts/F116-kzg-loader-assumes-monomial-basis-no-lagrange-detection-or-conversion.md)** · **HC 0.72**
+**[F116 — KZG loader silently treats Lagrange-basis G1 points as monomial powers of τ](findings/F116-kzg-loader-assumes-monomial-basis-no-lagrange-detection-or-conversion.md)** · **HC 0.72**
 `HyperRuntimeFileConfig::build_srs` calls `into_srs_monomial` unconditionally with no basis detection. Validator: filed High but cryptographic claim is wrong — the wrong-basis map is linear and injective, KZG binding transfers; actual harm is honest verkle-opening verification failure (liveness/RPC bug only, no on-chain consumer). **Severity should drop to Medium.**
 
 ### Medium (1)
 
-**[F101 — Custody-key JFS account-association proof is a publicly-served replayable bearer token](findings/drafts/F101-account-association-jfs-proof-replayable-no-chain-or-nonce-binding.md)** · **WP 0.92**
+**[F101 — Custody-key JFS account-association proof is a publicly-served replayable bearer token](findings/F101-account-association-jfs-proof-replayable-no-chain-or-nonce-binding.md)** · **WP 0.92**
 No chain-id, no nonce, no consumption — every other miniapp operation binds chain_id+nonce. Cross-chain front-run + Phase-B forward-dated replay both verified. Canonical parent of the F101/F104/F105/F158 family.
 
 ### Low (5)
 
-**[F094 — Bridge-burn watcher resume cursor derived from drainable queue, not persisted high-watermark](findings/drafts/F094-bridge-burn-watcher-cursor-derived-from-drainable-queue.md)** · **WP 0.92**
+**[F094 — Bridge-burn watcher resume cursor derived from drainable queue, not persisted high-watermark](findings/F094-bridge-burn-watcher-cursor-derived-from-drainable-queue.md)** · **WP 0.92**
 Latent today (`BridgeBurnStore::remove` has no production caller); `apply_inbound_burn` replay marker prevents double-credit. Self-limits to liveness/RPC-budget.
 
-**[F095 — `BridgeBurnStore` watermark poisonable, queue never pruned](findings/drafts/F095-watermark-poisoning-and-unbounded-queue-in-bridge-burn-store.md)** · **HC 0.85**
+**[F095 — `BridgeBurnStore` watermark poisonable, queue never pruned](findings/F095-watermark-poisoning-and-unbounded-queue-in-bridge-burn-store.md)** · **HC 0.85**
 Cursor-poison (opposite-direction twin of F094) + unbounded queue. Unbounded-queue is Phase-3c-acknowledged tech-debt per `actor.rs:321-325` docstring; cursor-poison has no carve-out. Replay marker prevents double-credit.
 
-**[F096 — `apply_inbound_burn` short-circuits on nullifier BEFORE signature verify](findings/drafts/F096-inbound-burn-nullifier-short-circuit-bypasses-signature-verification.md)** · **WP 0.93**
+**[F096 — `apply_inbound_burn` short-circuits on nullifier BEFORE signature verify](findings/F096-inbound-burn-nullifier-short-circuit-bypasses-signature-verification.md)** · **WP 0.93**
 Implementation order reverses the function's own docstring. Reachable via unauth POST `/hyper/v1/messages` — unsigned forgery against a previously-applied `(source_chain_id, burn_id)` returns `Ok(false)` and produces a one-hop gossip rebroadcast. No state mutation; metrics pollution + gossip noise only.
 
-**[F097 — `recovery_watcher` missing finality wait + poisonable cursor + panicking U256→u64 narrowing](findings/drafts/F097-recovery-watcher-missing-finality-wait-and-poisonable-cursor.md)** · **WP 0.93**
+**[F097 — `recovery_watcher` missing finality wait + poisonable cursor + panicking U256→u64 narrowing](findings/F097-recovery-watcher-missing-finality-wait-and-poisonable-cursor.md)** · **WP 0.93**
 Recovery pipeline omits all three defensive primitives `bridge_burn` carries. Latent / Low because the store has no production read-consumer today; Medium when consumer wires up.
 
-**[F104 — `FeeDepositBody` Ed25519 payload omits `chain_id`; replayable across hypersnap shards](findings/drafts/F104-fee-deposit-no-chain-id-binding-replayable-across-hypersnap-shards.md)** · **WP 0.90**
+**[F104 — `FeeDepositBody` Ed25519 payload omits `chain_id`; replayable across hypersnap shards](findings/F104-fee-deposit-no-chain-id-binding-replayable-across-hypersnap-shards.md)** · **WP 0.90**
 Sibling of F101 in `-v1` DST. Cross-shard replay moves victim primary→fee balance on victim's own FID — no extraction, only forced reservation. Gated on second `protocol_chain_id` being provisioned. Same defect class extends to `token_transfer.rs` and `token_lock.rs`.
 
 ### Info (1)
 
-**[F110 — DKLS refresh inherits the F107 self-index-trust pattern via shared `step5`; latent because `refresh.rs` is unreachable from production](findings/drafts/F110-dkls-refresh-step5-verification-skip-variant-of-F107.md)** · **HC 0.88**
+**[F110 — DKLS refresh inherits the F107 self-index-trust pattern via shared `step5`; latent because `refresh.rs` is unreachable from production](findings/F110-dkls-refresh-step5-verification-skip-variant-of-F107.md)** · **HC 0.88**
 Algebra is sound (`Q = l_V^{-1} · (-(rest))` with public Lagrange weights bypasses the `verifying_pk == identity` check; refresh silently drifts `poly_point` while `Party.pk` is preserved). Reachability confirmed: zero non-test callers anywhere in production. If a future commit wires refresh into the epoch lifecycle, re-rate (persistent address survives across epochs — more severe than F107's per-epoch DKG corruption).
 
 ---
