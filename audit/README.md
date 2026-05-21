@@ -147,6 +147,119 @@ DKLS correctly rejects `recovery_id ∈ {2,3}` (no silent `v = 29/30` emission),
 
 ---
 
-## Iteration 2 (in progress — not in this index)
+# Hypersnap — Iter-2 Findings Spotlight
 
-A second hunt iteration is currently underway against 69 additional gapfill-seeded tasks (DKLS23 internals, ed448-bulletproofs, EIP-712 signers, account stores, ingress). 8 draft findings have been produced so far but **have not yet been red-team validated**, so they are intentionally excluded from this index. They will be added in a later revision after `/audit-validate` runs against them.
+**Audited commit:** [`6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae`](https://github.com/farcasterorg/hypersnap/commit/6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae) (branch `pow`)
+**Audit harness:** [audit-suite](https://github.com/floAr/audit-suite) multi-agent pipeline, brain library `2921c8eb3756`
+
+This is the iter-2-only spotlight. For the combined iter-1 + iter-2 index see [`audit-index.md`](audit-index.md). Iter-2 was a gapfill-seeded second-pass hunt against 69 additional scope files (DKLS23 internals, ed448-bulletproofs, KZG/verkle loaders, account-store batch hygiene, the Farcaster v2 ingress, notification webhooks).
+
+**Iter-2 numbers:** 27 findings filed. 16 red-team validated to date (9 WATERPROOF, 7 HAS_CAVEATS, 0 INVALIDATED). 11 still in validation queue.
+
+---
+
+## Revalidation wins — three findings iter-1 missed
+
+The whole point of running a phase-2 revalidation is to surface bugs the first pass closed too early. These three are exactly that:
+
+| F-ID | Sev | Iter-1 disposition | Iter-2 verdict |
+|---|---|---|---|
+| **F138** | CRITICAL | (out of iter-1 scope; not covered) | **WATERPROOF 0.97** — chain halts on any honest multi-node deployment |
+| **F133** | CRITICAL | (out of iter-1 scope; not covered) | **HAS_CAVEATS 0.75** — consensus fork via unauthenticated gRPC |
+| **F132** | HIGH | iter-1 H035 ruled `stage_charge_message_fee` clean on crash-atomicity grounds | **WATERPROOF 0.96** — within-batch read-after-write hazard H035's methodology was not designed to detect |
+
+F132 is the textbook revalidation case: the iter-1 specialist correctly walked the crash-atomicity checklist and concluded "no issue here", but that's the wrong checklist for this defect. The iter-2 gapfill seeded `fee_charger.rs` as a fresh scope file with a different attack class (`fee-trust-uniqueness-flow`), and a different specialist walked it cleanly. H035's note stays correct *within its declared scope*; F132 lives outside that scope.
+
+F138 and F133 are bugs that iter-1's recon never touched: F138 sits at the `gossip_adapter` wire boundary that the iter-1 hunter for `gossip_adapter.rs` (H041) treated as a transport-only file, and F133 is in `fingerprint_store.rs` which only entered the queue when gapfill noticed it as uncovered.
+
+---
+
+## Validated iter-2 findings (16)
+
+### Critical (2)
+
+**[F138 — Proposer broadcast strips locks/transfers + zeros signed anchor metadata; chain halts on any honest multi-node deployment](findings/drafts/F138-proposer-pipeline-strips-locks-transfers-and-signed-anchor-fields-from-wire-broadcast.md)** · **WP 0.97**
+`gossip_adapter::outbound_to_wire` hard-codes `locks: vec![], transfers: vec![]` and both `encode_hyper_block` / `decode_hyper_block` zero out `snapchain_anchor_*`, `missed_proposals`, `snapchain_range_*`. Peers recompute `signing_payload` over zeroed bytes → `SignatureVerificationFailed`; for the all-anchors-zero case the state-root replay also diverges → `StateRootMismatch`. The chain mechanically halts on any honest multi-node deployment past genesis. Validator also flagged `block_index.rs:35-63` as a THIRD production copy of the drop pattern (the finding had classified it as test-only).
+
+**[F133 — `FingerprintStore` writes bypass txn_batch on the gRPC simulate path → per-validator divergence → consensus fork via unauthenticated RPC](findings/drafts/F133-fingerprint-store-direct-db-writes-during-simulate-cause-fork-and-free-poisoning.md)** · **HC 0.75**
+`FingerprintStore::insert` (`self.db.put`) and `uniqueness_score`'s eviction (`self.db.commit`) bypass the engine's `txn_batch`. `merge_message` runs on the gRPC `submit_message` simulate path; any unauth caller plants/evicts fingerprints on one validator's local DB. Validator narrowed: the finding's "fee_balance → account_root" intermediate mechanism is wrong (account_root is purely trie-of-message-hashes); actual fork is divergent accept/reject when a poisoned fee crosses the `HyperFeeInsufficient` threshold. Severity stands; prose needs correction.
+
+### High (7)
+
+**[F091 — Cross-FID `lock_id` collision permanently strands victim's bridge-locked balance](findings/drafts/F091-lock-id-collision-across-fids-permanently-strands-victim-balance.md)** · **WP 0.97**
+L2 per-FID `lock_id` dedup + L1 `claimed[lockId]` global nullifier + zero recovery path = any attacker with one funded FID can race the victim's burn and permanently nullify the L1 slot. Pinned test `same_lock_id_on_distinct_fids_is_allowed` literally asserts the bug.
+
+**[F105 — App-PoW receipts have no epoch binding; one captured receipt replays every future epoch indefinitely](findings/drafts/F105-app-usage-receipt-no-epoch-binding-cross-epoch-replay.md)** · **WP 0.93**
+`AppUsageReceiptBody.timestamp` is signed but never compared against `current_epoch()`. The receipt-count consumer credits blindly. One captured byte-identical receipt saturates `MAX_RECEIPTS_PER_APP_PER_EPOCH = 10_000` per (user, app) pair as a *floor* on §7 App-PoW reward inflation. F101 family.
+
+**[F108 — DKLS signing trusts inner `parties.sender`; 1-packet panic-DoS + misattribution-blame](findings/drafts/F108-dkls-signing-trusts-inner-sender-for-routing-and-blame.md)** · **WP 0.95**
+`sign_phase2/3` dispatch `kept[..]` and abort-blame strings on attacker-controlled inner `parties.sender`. One inbound `Phase1Send` permanently crashes the victim's signing actor (no `catch_unwind`) or frames an innocent committee member. F107 family.
+
+**[F132 — `stage_charge_message_fee` reads accumulators from disk, not from the in-progress batch; same-FID fee-bearing messages silently free](findings/drafts/F132-stage-charge-message-fee-read-after-write-collapse.md)** · **WP 0.96**
+Reads `fee_balance` / `total_fee_burned` / `proposer_fee_pot` via `self.db.get` instead of from `RocksDbTransactionBatch`. Successive same-FID messages in one chunk overwrite each other; only the last commits. Determinism-safe (no fork) but accounting silently breaks. Contradicts iter-1 H035.
+
+**[F107 — DKLS `step5` skips DLog verification for any `ProofCommitment` whose inner `index` matches the verifier's own party_index](findings/drafts/F107-dkls-step5-skips-verification-for-self-claimed-proof-commitment-index.md)** · **HC 0.85**
+`t<n` produces silent ceremony-DoS via Lagrange cross-window mismatch; `t==n` produces silent group-pk corruption. Validator: titular "arbitrary-pk injection" overstated (attacker can't know DLog); per-recipient divergent-pk needs F023.
+
+**[F114 — DKG zero-share init trusts inner `parties.sender`/`receiver` bytes; three reachable primitives (DoS / misattribution / silent corruption)](findings/drafts/F114-dkls-zero-share-init-trusts-inner-parties-sender-receiver.md)** · **HC 0.85**
+DKG `phase4` dispatches on inner bytes; ceremony layer keys accumulator BTreeMaps on wire-sender; no cross-check. Primitives A (DoS) and B (framing) unconditional from one packet; C (silent ZeroShare-vec corruption surfacing at signing time with blame-less abort) needs F018/F023.
+
+**[F116 — KZG loader silently treats Lagrange-basis G1 points as monomial powers of τ](findings/drafts/F116-kzg-loader-assumes-monomial-basis-no-lagrange-detection-or-conversion.md)** · **HC 0.72**
+`HyperRuntimeFileConfig::build_srs` calls `into_srs_monomial` unconditionally with no basis detection. Validator: filed High but cryptographic claim is wrong — the wrong-basis map is linear and injective, KZG binding transfers; actual harm is honest verkle-opening verification failure (liveness/RPC bug only, no on-chain consumer). **Severity should drop to Medium.**
+
+### Medium (1)
+
+**[F101 — Custody-key JFS account-association proof is a publicly-served replayable bearer token](findings/drafts/F101-account-association-jfs-proof-replayable-no-chain-or-nonce-binding.md)** · **WP 0.92**
+No chain-id, no nonce, no consumption — every other miniapp operation binds chain_id+nonce. Cross-chain front-run + Phase-B forward-dated replay both verified. Canonical parent of the F101/F104/F105/F158 family.
+
+### Low (5)
+
+**[F094 — Bridge-burn watcher resume cursor derived from drainable queue, not persisted high-watermark](findings/drafts/F094-bridge-burn-watcher-cursor-derived-from-drainable-queue.md)** · **WP 0.92**
+Latent today (`BridgeBurnStore::remove` has no production caller); `apply_inbound_burn` replay marker prevents double-credit. Self-limits to liveness/RPC-budget.
+
+**[F095 — `BridgeBurnStore` watermark poisonable, queue never pruned](findings/drafts/F095-watermark-poisoning-and-unbounded-queue-in-bridge-burn-store.md)** · **HC 0.85**
+Cursor-poison (opposite-direction twin of F094) + unbounded queue. Unbounded-queue is Phase-3c-acknowledged tech-debt per `actor.rs:321-325` docstring; cursor-poison has no carve-out. Replay marker prevents double-credit.
+
+**[F096 — `apply_inbound_burn` short-circuits on nullifier BEFORE signature verify](findings/drafts/F096-inbound-burn-nullifier-short-circuit-bypasses-signature-verification.md)** · **WP 0.93**
+Implementation order reverses the function's own docstring. Reachable via unauth POST `/hyper/v1/messages` — unsigned forgery against a previously-applied `(source_chain_id, burn_id)` returns `Ok(false)` and produces a one-hop gossip rebroadcast. No state mutation; metrics pollution + gossip noise only.
+
+**[F097 — `recovery_watcher` missing finality wait + poisonable cursor + panicking U256→u64 narrowing](findings/drafts/F097-recovery-watcher-missing-finality-wait-and-poisonable-cursor.md)** · **WP 0.93**
+Recovery pipeline omits all three defensive primitives `bridge_burn` carries. Latent / Low because the store has no production read-consumer today; Medium when consumer wires up.
+
+**[F104 — `FeeDepositBody` Ed25519 payload omits `chain_id`; replayable across hypersnap shards](findings/drafts/F104-fee-deposit-no-chain-id-binding-replayable-across-hypersnap-shards.md)** · **WP 0.90**
+Sibling of F101 in `-v1` DST. Cross-shard replay moves victim primary→fee balance on victim's own FID — no extraction, only forced reservation. Gated on second `protocol_chain_id` being provisioned. Same defect class extends to `token_transfer.rs` and `token_lock.rs`.
+
+### Info (1)
+
+**[F110 — DKLS refresh inherits the F107 self-index-trust pattern via shared `step5`; latent because `refresh.rs` is unreachable from production](findings/drafts/F110-dkls-refresh-step5-verification-skip-variant-of-F107.md)** · **HC 0.88**
+Algebra is sound (`Q = l_V^{-1} · (-(rest))` with public Lagrange weights bypasses the `verifying_pk == identity` check; refresh silently drifts `poly_point` while `Party.pk` is preserved). Reachability confirmed: zero non-test callers anywhere in production. If a future commit wires refresh into the epoch lifecycle, re-rate (persistent address survives across epochs — more severe than F107's per-epoch DKG corruption).
+
+---
+
+## Iter-2 findings still pending validation (11)
+
+These survived hunt but have not yet survived the validator's adversarial 8-hypothesis walk. They are NOT included in the combined index above but are listed here so the iter-2 hunt result is fully accounted for:
+
+| F-ID | Sev (specialist's call) | One-liner |
+|---|---|---|
+| F117 | High | Verkle lock keys omit domain byte → path-prefix panic / silent nullifier-subtree overwrite |
+| F119 | High | `DLogProof::verify` panics on malformed challenge → 1-packet remote panic-DoS (DKG / OT / signing-init reachable) |
+| F121 | Medium | IPA `from_bytes` uses `mod_order` not canonical → confidential-transfer wire-byte malleability |
+| F135 | High | DA-PoW driver pads `served_key`; apply-path exact-byte lookup never matches → §5 reward signal = 0 |
+| F137 | Low | Importer skips `extract_output_pubkeys` gate; malformed `one_time_pubkey` strands the output |
+| F149 | Medium | Transfer codec `one_time_pubkey` unsigned → relay-attacker recipient-output-burn griefing |
+| F151 | High | `SnapchainCodec` decode panics on peer Vote/Proposal/Commits BEFORE signature verify (F002 sibling) |
+| F153 | High | Hyperblock threshold-ECDSA payload omits `signer_indices` → attacker-controlled slashing (F028 sibling) |
+| F154 | High | Farcaster v2 batch endpoints unbounded `fids` array + uncapped pagination → multi-GB heap DoS unauth |
+| F157 | Medium | `following_fid` filter unbounded follower enumeration → post-auth consensus-shared RocksDB DoS |
+| F158 | High | JFS webhook signed payload no app_id/nonce/timestamp → cross-app replay / notification phishing |
+
+11 findings × 2 parallel × ≈5 min each ≈ ~3 hunter-rounds remain. Next resume on `/audit-suite:audit-validate`.
+
+---
+
+## Methodology delta for iter-2
+
+- **Gapfill iteration 1** seeded 69 tasks across uncovered files identified after iter-1 close. Hunt success rate on the iter-2 batch was 55 % (27 findings out of 49 unique tasks excluding tests-only ruled-outs) — substantially above iter-1's 33 %, reflecting that gapfill targets surfaced higher-yield scope (lower-coverage files tend to harbor more bugs).
+- **Three same-root-cause clusters surfaced**: (1) DKLS inner-index trust pattern (F107/F108/F110/F114); (2) chain-id / nonce binding gaps in signed payloads (F101/F104/F105/F158); (3) F132/F133's adjacent storage-batch hygiene defects, which the iter-1 sweep had partially closed but on a narrower attack class.
+- **`max_parallel=2` discipline confirmed** — this workspace hit Anthropic session limits twice during iter-2 hunt; both times the queue resumed cleanly without losing prior work because each dispatched hunter is independent.
