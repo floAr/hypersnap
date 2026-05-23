@@ -4,6 +4,12 @@ task: H153
 attack_class: signing-payload-coverage
 severity: high
 status: draft
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.92
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T00:00:00Z
 ---
 
 # F153 — Hyperblock threshold-ECDSA signing payload omits `signer_indices`, `extra_rules_version`, `retained_message_count`, and `envelope.payload`; malleated `signer_indices` in slashing evidence can slash arbitrary validators while still passing `verify_hyperblock_signature`

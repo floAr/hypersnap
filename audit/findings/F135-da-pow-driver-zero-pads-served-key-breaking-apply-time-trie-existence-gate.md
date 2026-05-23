@@ -4,6 +4,17 @@ task: H135
 attack_class: fee-trust-uniqueness-flow
 severity: high
 status: draft
+related_findings:
+  - id: F132
+    relationship: related-but-distinct
+  - id: F133
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.95
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T00:00:00Z
 ---
 
 # F135 — DA-PoW driver zero-pads the natural-length trie key to a 32-byte `served_key` whose exact bytes are not present in the hyper merkle trie; in production wiring this guarantees `BlockEngineDaTrieLookup::contains_key` rejects every DA challenge response, collapsing the FIP §5 DA-PoW reward signal to zero for every validator

@@ -4,6 +4,17 @@ task: H117
 attack_class: kzg-srs-or-verkle-encoding
 severity: high
 status: draft
+related_findings:
+  - id: F116
+    relationship: related-but-distinct
+  - id: F119
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.95
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T00:00:00Z
 ---
 
 # F117 — Verkle insertions for locks omit the 1-byte domain discriminator, allowing an attacker-chosen `lock_id` to collide with the path-prefix of a future nullifier or note-commitment insert and panic the block builder (consensus liveness DoS)

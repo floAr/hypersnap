@@ -4,6 +4,12 @@ task: H101
 attack_class: eip712-domain-or-replay-binding
 severity: medium
 status: draft
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.92
+  hypotheses_walked: 8
+  validated_at: 2026-05-21T19:00:00Z
 ---
 
 # F101 — Custody-key JFS account-association proof is a publicly-served, replayable bearer token: no chain-id, no nonce, no consumption — every other miniapp operation binds chain-id+nonce; Register stands alone

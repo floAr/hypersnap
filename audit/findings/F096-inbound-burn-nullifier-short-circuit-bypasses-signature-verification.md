@@ -11,6 +11,19 @@ file_paths:
 commit: 6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae
 severity_initial: low
 status: draft
+related_findings:
+  - id: F094
+    relationship: related-but-distinct
+  - id: F095
+    relationship: related-but-distinct
+  - id: F097
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.93
+  hypotheses_walked: 8
+  validated_at: 2026-05-21T19:00:00Z
 ---
 
 # F096 — `apply_inbound_burn` short-circuits on the `(source_chain_id, burn_id)` nullifier BEFORE signature verification, accepting (and one-hop-broadcasting) unsigned/forged `HyperInboundBurn` messages

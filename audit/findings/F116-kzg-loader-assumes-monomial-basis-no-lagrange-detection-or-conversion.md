@@ -4,6 +4,11 @@ task: H116
 attack_class: kzg-srs-or-verkle-encoding
 severity: high
 status: draft
+related_findings:
+  - id: F117
+    relationship: related-but-distinct
+  - id: F119
+    relationship: related-but-distinct
 validation:
   validator: validator
   verdict: HAS_CAVEATS

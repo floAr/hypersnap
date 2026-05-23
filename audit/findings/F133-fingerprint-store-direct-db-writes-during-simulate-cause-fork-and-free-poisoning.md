@@ -4,6 +4,11 @@ task: H133
 attack_class: fee-trust-uniqueness-flow
 severity: critical
 status: draft
+related_findings:
+  - id: F132
+    relationship: related-but-distinct
+  - id: F135
+    relationship: related-but-distinct
 validation:
   validator: validator
   verdict: HAS_CAVEATS

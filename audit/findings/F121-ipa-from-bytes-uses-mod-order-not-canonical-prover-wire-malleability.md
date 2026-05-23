@@ -4,6 +4,12 @@ task: H121
 attack_class: balance-closure-or-range-proof
 severity: medium
 status: draft
+validation:
+  validator: validator
+  verdict: HAS_CAVEATS
+  confidence: 0.85
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T00:00:00Z
 ---
 
 # F121 — `InnerProductProof::from_bytes` decodes the IPA witness scalars `a` and `b` via `Scalar::from_bytes_mod_order` instead of `Scalar::from_canonical_bytes`, giving the prover wire-byte malleability: distinct, signed, byte-encoded `RangeProof` payloads that all verify against the same `(value, blinding)`

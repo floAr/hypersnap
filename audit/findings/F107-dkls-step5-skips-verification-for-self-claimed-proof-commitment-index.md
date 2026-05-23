@@ -4,6 +4,13 @@ task: H107
 attack_class: dkls23-protocol-correctness
 severity: high
 status: draft
+related_findings:
+  - id: F108
+    relationship: related-but-distinct
+  - id: F110
+    relationship: same-root-cause
+  - id: F114
+    relationship: related-but-distinct
 validation:
   validator: validator
   verdict: HAS_CAVEATS

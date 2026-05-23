@@ -4,6 +4,13 @@ task: H151
 attack_class: serialization-boundary
 severity: high
 status: draft
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.92
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T00:00:00Z
+  note: "All 9 panic triggers (a-i) reach unfiltered from gossip / sync request-response without consensus-key auth. Sibling-to-F002 attribution is correct: different impl Codec<...> blocks, different channels, different actor crash radius. No upstream gate, no spec carve-out, HEAD matches pin. PoC not supplied (H8 NEEDS_MORE_DATA) — strongly recommended for the 9-case omnibus. See findings/notes/F151-validation.md."
 ---
 
 # F151 — `SnapchainCodec` decode panics on peer-controlled `Vote` / `Proposal` / sync-`Commits` fields (Channel::Consensus and Channel::Sync DoS surface, distinct from F002's Channel::ProposalParts path)

@@ -11,6 +11,19 @@ file_paths:
 commit: 6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae
 severity_initial: low
 status: draft
+related_findings:
+  - id: F094
+    relationship: related-but-distinct
+  - id: F096
+    relationship: related-but-distinct
+  - id: F097
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: HAS_CAVEATS
+  confidence: 0.85
+  hypotheses_walked: 8
+  validated_at: 2026-05-21T19:00:00Z
 ---
 
 # F095 — `BridgeBurnStore` watermark is poisonable and queue is never pruned, degrading the inbound-bridge over time

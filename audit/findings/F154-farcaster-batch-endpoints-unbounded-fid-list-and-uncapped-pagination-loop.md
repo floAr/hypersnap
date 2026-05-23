@@ -7,6 +7,15 @@ status: draft
 commit: 6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae
 file_paths:
   - code/hypersnap/src/api/http.rs
+related_findings:
+  - id: F157
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.9
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T00:00:00Z
 ---
 
 # F154 — Farcaster v2 batch endpoints: unbounded `fids` array + uncapped pagination loop = asymmetric remote DoS

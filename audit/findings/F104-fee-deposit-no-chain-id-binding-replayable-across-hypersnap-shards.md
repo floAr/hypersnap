@@ -4,6 +4,15 @@ task: H104
 attack_class: signing-payload-or-dst-collision
 severity: low
 status: draft
+related_findings:
+  - id: F105
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.90
+  hypotheses_walked: 8
+  validated_at: 2026-05-21T19:00:00Z
 ---
 
 # F104 — `FeeDepositBody` Ed25519 signing payload omits `chain_id`, replayable across hypersnap deployments / shards (F101-class variant)

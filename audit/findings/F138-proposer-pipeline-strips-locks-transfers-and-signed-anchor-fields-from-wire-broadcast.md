@@ -4,6 +4,9 @@ task: H138
 attack_class: mempool-admission-or-deterministic-ordering
 severity: critical
 status: draft
+related_findings:
+  - id: F137
+    relationship: related-but-distinct
 validation:
   validator: validator
   verdict: WATERPROOF

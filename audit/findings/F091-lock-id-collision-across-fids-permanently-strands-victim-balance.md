@@ -13,6 +13,12 @@ file_paths:
 commit: 6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae
 severity_initial: high
 status: draft
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.97
+  hypotheses_walked: 8
+  validated_at: 2026-05-21T19:00:00Z
 ---
 
 # F091 — Cross-FID `lock_id` collision lets any attacker permanently strand a victim's bridge-locked balance

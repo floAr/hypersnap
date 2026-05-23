@@ -4,6 +4,17 @@ task: H119
 attack_class: kzg-srs-or-verkle-encoding
 severity: high
 status: draft
+related_findings:
+  - id: F116
+    relationship: related-but-distinct
+  - id: F117
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.95
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T00:00:00Z
 ---
 
 # `DLogProof::verify` panics on adversarially-shaped `proof.proofs[i].challenge` whose `Vec<u8>` length differs from `T/8 == 4`, giving any peer who can deliver a `DLogProof` to a verifier a 1-message remote-panic primitive against the DKG `step5` decommit path (`dkg.rs::step5` → `DLogProof::decommit_verify` → `InteractiveDLogProof::verify` → `U256::from_be_slice` assert!) and the OT base `run_phase2_step1` path (`ot/base.rs:286`) — a malicious party in the DKLS ceremony, or any peer that can spoof an inbound DKG / OT base round message under F018 conditions, can crash the verifying validator's thread by replacing every `challenge` field with a non-4-byte payload and grinding ~256 attempts for an 8-bit Fischlin hash collision on iteration `i=0`

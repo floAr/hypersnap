@@ -4,6 +4,15 @@ task: H137
 attack_class: mempool-admission-or-deterministic-ordering
 severity: low
 status: draft
+related_findings:
+  - id: F138
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.90
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T00:00:00Z
 ---
 
 # F137 — Importer's per-transfer re-validation omits the `extract_output_pubkeys` gate that mempool admission enforces; a malformed `one_time_pubkey` on an output included by the threshold committee passes import but is silently dropped during the note-store sync, leaving the verkle-tree commitment with no corresponding owner pubkey and permanently stranding the output

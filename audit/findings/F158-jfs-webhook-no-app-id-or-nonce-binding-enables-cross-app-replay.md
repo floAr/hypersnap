@@ -4,6 +4,12 @@ task: H158
 attack_class: untrusted-input-ingress
 severity: high
 status: draft
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.93
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T00:00:00Z
 ---
 
 # F158 — Notification webhook accepts JFS-signed events with no binding to `app_id`, destination URL, timestamp, or nonce — captured-envelope replay enables cross-app notification subscription spoofing, force-unsubscribe of any subscriber, and notification-phishing attribution to a mini app the attacker does not control

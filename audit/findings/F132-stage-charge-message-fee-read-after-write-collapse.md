@@ -4,6 +4,11 @@ task: H132
 attack_class: fee-trust-uniqueness-flow
 severity: high
 status: draft
+related_findings:
+  - id: F133
+    relationship: related-but-distinct
+  - id: F135
+    relationship: related-but-distinct
 validation:
   validator: validator
   verdict: WATERPROOF

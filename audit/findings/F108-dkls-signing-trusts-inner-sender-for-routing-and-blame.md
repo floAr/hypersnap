@@ -4,6 +4,13 @@ task: H108
 attack_class: dkls23-protocol-correctness
 severity: high
 status: draft
+related_findings:
+  - id: F107
+    relationship: related-but-distinct
+  - id: F110
+    relationship: related-but-distinct
+  - id: F114
+    relationship: related-but-distinct
 validation:
   validator: validator
   verdict: WATERPROOF

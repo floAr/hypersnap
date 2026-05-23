@@ -4,6 +4,12 @@ task: H149
 attack_class: serialization-boundary
 severity: medium
 status: draft
+validation:
+  validator: validator
+  verdict: HAS_CAVEATS
+  confidence: 0.85
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T09:11:34Z
 ---
 
 # F149 — `HyperTransferTx` wire codec carries two security-critical fields (`output.one_time_pubkey`, `blinding_diff_scalar`) that the per-input Schnorr signature does NOT cover; any gossip-relay attacker can rewrite a recipient's `one_time_pubkey` to a key they control and permanently lock the recipient out of their stealth output

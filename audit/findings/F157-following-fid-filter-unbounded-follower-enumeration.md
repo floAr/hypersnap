@@ -8,6 +8,15 @@ commit: 6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae
 file_paths:
   - code/hypersnap/src/api/notifications/send_handler.rs
   - code/hypersnap/src/api/social_graph.rs
+related_findings:
+  - id: F154
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.88
+  hypotheses_walked: 8
+  validated_at: 2026-05-23T00:00:00Z
 ---
 
 # F157 — `following_fid` filter on the mini-app send endpoint enumerates an attacker-chosen FID's *entire* follower set per request

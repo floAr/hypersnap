@@ -7,6 +7,19 @@ file_paths:
 commit: 6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae
 severity_initial: low
 status: draft
+related_findings:
+  - id: F095
+    relationship: related-but-distinct
+  - id: F096
+    relationship: related-but-distinct
+  - id: F097
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.92
+  hypotheses_walked: 8
+  validated_at: 2026-05-21T19:00:00Z
 ---
 
 # F094 — Bridge-burn watcher resume cursor is derived from the (drainable) `BridgeBurnStore` queue, not from a persisted high-watermark

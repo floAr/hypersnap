@@ -5,6 +5,15 @@ specialist: rust-crypto-primitives
 attack_class: signing-payload-or-dst-collision
 severity: high
 status: draft
+related_findings:
+  - id: F104
+    relationship: related-but-distinct
+validation:
+  validator: validator
+  verdict: WATERPROOF
+  confidence: 0.93
+  hypotheses_walked: 8
+  validated_at: 2026-05-21T19:00:00Z
 ---
 
 # F105 — App-PoW receipts have no epoch / timestamp binding to the apply path; one signed receipt can be replayed across every future epoch to inflate the app-owner's §7 score
