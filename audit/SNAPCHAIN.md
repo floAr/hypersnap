@@ -1,7 +1,7 @@
 # Snapchain — Inherited-Findings Audit Index
 
 **Upstream repo:** [farcasterxyz/snapchain](https://github.com/farcasterxyz/snapchain) (`main` branch)
-**Derived from:** the [hypersnap audit findings index](audit-index.md) — 56 standing findings against the hypersnap fork (`farcasterorg/hypersnap@6cff47c637`).
+**Derived from:** the [hypersnap audit findings index](README.md) — 56 standing findings against the hypersnap fork (`farcasterorg/hypersnap@6cff47c637`).
 **Method:** structural mapping, not a fresh audit. For each hypersnap finding, the code path was checked in snapchain to see whether the same defect exists. This is *not* a substitute for an 8-hypothesis red-team validation against snapchain itself — every entry below is a hypothesis that snapchain inherits the bug, anchored to file:line evidence; a snapchain-side validator pass is still required before any of these become Snapchain-attributed findings.
 
 **Bottom line:** **9 of 56 hypersnap findings appear to apply to snapchain** (the consensus codec, gossipsub, HTTP ingress, RocksDB-atomicity surface). The remaining 47 are hypersnap-specific (bridge, DKLS23, verkle, KZG, ed448-bulletproofs, EigenTrust, validator economics, hyperblock anchors, confidential transfers, account-association, miniapp registration, notification webhooks, social-graph filter handlers) — those subsystems do not exist upstream.
@@ -14,7 +14,7 @@ The hypersnap validator's verdict (WP / HC) is carried over because the root cau
 
 ### Critical / High — consensus + codec panics on peer input before signature verify
 
-#### [F002 — `add_proposed_value` unwraps peer-controlled `FullProposal` Option fields before validation](audit-index.md#f002)
+#### [F002 — `add_proposed_value` unwraps peer-controlled `FullProposal` Option fields before validation](README.md#f002)
 **WP carried over · severity High** — snapchain: `src/consensus/proposer.rs:210-211`
 ```rust
 let header = chunk.header.as_ref().unwrap();
@@ -22,7 +22,7 @@ let height = header.height.unwrap();
 ```
 Both `.unwrap()` calls occur before signature verification in the ProposedValue::Shard variant. Any gossipsub-reachable peer can crash the receiving shard actor with a malformed proto. Same primitive as hypersnap.
 
-#### [F005 — `dispatch_decided_value` unwraps `DecidedValue` value chain on peer-controlled gossip input](audit-index.md#f005)
+#### [F005 — `dispatch_decided_value` unwraps `DecidedValue` value chain on peer-controlled gossip input](README.md#f005)
 **WP carried over · severity High** — snapchain: `src/node/snapchain_read_node.rs:190-205`
 ```rust
 let shard_id = match decided_value.value.as_ref().unwrap() {
@@ -38,7 +38,7 @@ actors.cast_decided_value(decided_value).unwrap();
 ```
 Read-nodes panic on a gossip `DecidedValue` proto with an unknown / missing oneof, an out-of-range `shard_index`, or a destination shard with no registered actor. Crashes every read-node in the fleet via libp2p gossip.
 
-#### [F151 — `SnapchainCodec` decode panics on peer Vote / Proposal / SyncResponse fields before signature verify](audit-index.md#f151)
+#### [F151 — `SnapchainCodec` decode panics on peer Vote / Proposal / SyncResponse fields before signature verify](README.md#f151)
 **WP carried over · severity High** — snapchain: `src/consensus/malachite/snapchain_codec.rs:106` and `src/core/types.rs:423, 431, 465, 467`
 - `snapchain_codec.rs:106`: `.unwrap()` on `proposal.height` in the StreamMessage decode path.
 - `types.rs:423`: `panic!("Invalid vote type")` in `Vote::from_proto` when the proto `type` field is outside the documented enum range.
@@ -48,28 +48,28 @@ These run during malachite-codec decode, *before* the consensus signature verifi
 
 ### Medium — networking / gossipsub / HTTP-ingress hygiene
 
-#### [F017 — Gossipsub mesh has no peer scoring, no `validate_messages()`, default mesh_n_low / outbound_min, 100/100 connection limits](audit-index.md#f017)
+#### [F017 — Gossipsub mesh has no peer scoring, no `validate_messages()`, default mesh_n_low / outbound_min, 100/100 connection limits](README.md#f017)
 **HC carried over · severity Medium** — snapchain: `src/network/gossip.rs:297-333`
 `mesh_n(10)` and `mesh_n_high(20)` are set but `mesh_n_low`, `outbound_min`, peer-scoring config, and `validate_messages()` callback are all absent. Connection limits are hardcoded at 100/100 (lines 331-332); a TODO at line 326 acknowledges they're high. Sybil-poisoned mesh can eclipse a snapchain node from any topic with no eviction path.
 
-#### [F019 — No per-topic gossip message size cap; only the 10 MB libp2p transport cap is enforced](audit-index.md#f019)
+#### [F019 — No per-topic gossip message size cap; only the 10 MB libp2p transport cap is enforced](README.md#f019)
 **WP carried over · severity Medium** — snapchain: `src/network/gossip.rs:45, 301`
 `MAX_GOSSIP_MESSAGE_SIZE = 1024 * 1024 * 10` is the only ceiling; `map_gossip_bytes_to_system_message()` (lines 994-1102) does no per-topic / per-variant size validation. An attacker on any subscribed topic can amplify 10×–1000× over the legitimate frame size and grief the mesh.
 
-#### [F021 — Autodiscovery `handle_contact_info` dials body-supplied address without binding to libp2p sender peer-id; `PeerId::from_bytes().unwrap()` panics on malformed bytes](audit-index.md#f021)
+#### [F021 — Autodiscovery `handle_contact_info` dials body-supplied address without binding to libp2p sender peer-id; `PeerId::from_bytes().unwrap()` panics on malformed bytes](README.md#f021)
 **WP carried over · severity Medium** — snapchain: `src/network/gossip.rs:950, 960-970, 990`
 `PeerId::from_bytes(&contact_info_body.peer_id).unwrap()` at line 950 panics on adversarial peer-id bytes. The `gossip_address` is then dialed at line 990 without binding `contact_info_body.peer_id` to the libp2p propagation source (only checked against already-connected peers). Eclipse + unconditional panic primitive against snapchain nodes.
 
-#### [F030 — Unbounded HTTP body buffered via `Incoming::collect().await` with no transport-level cap](audit-index.md#f030)
+#### [F030 — Unbounded HTTP body buffered via `Incoming::collect().await` with no transport-level cap](README.md#f030)
 **WP carried over · severity High** — snapchain: `src/network/http_server.rs:3867, 3887, 3923, 3964`
 Three `.collect().await` calls on hyper request bodies with no pre-buffer body-size limit; the `http1::Builder` at line 3964 is bare. Hyper defaults to unbounded body buffering. Anonymous public-internet POST of a multi-GB body OOM-kills the node before any application-level rejection runs.
 
-#### [F031 — No rate limit on any HTTP / gRPC ingress endpoint](audit-index.md#f031)
+#### [F031 — No rate limit on any HTTP / gRPC ingress endpoint](README.md#f031)
 **WP carried over · severity High** — snapchain: no `tower::limit` / `RateLimit` / `governor::Governor` / `tower-governor` middleware anywhere on the HTTP or gRPC ingress. Grep returns only internal peer-bouncing comments (`gossip.rs:234, 646`), not ingress rate limiting. Anonymous CPU-grief on the `submit_message` / `submit_bulk_messages` / streaming `GetBlocks` paths is unbounded.
 
 ### High — storage atomicity
 
-#### [F033 — Block / shard-chunk header committed in a SEPARATE RocksDB commit from state-mutation batch (cross-CF atomicity break)](audit-index.md#f033)
+#### [F033 — Block / shard-chunk header committed in a SEPARATE RocksDB commit from state-mutation batch (cross-CF atomicity break)](README.md#f033)
 **WP carried over · severity Medium-High** — snapchain: `src/storage/store/engine.rs:1791, 1798`; `src/storage/store/shard.rs:174`; `src/storage/store/block_engine.rs:968-969` (plus `block.rs:181`)
 The shard engine commits its state-mutation batch with `self.db.commit(txn).unwrap()`, then independently calls `put_shard_chunk(shard_chunk)` which opens its own `db.commit(txn)?`. The block engine has the analogous two-commit pattern. A crash between the two commits leaves the trie / message stores at height H but the `ShardChunk` / `Block` header at H-1 — on-restart consensus divergence, and that divergence is then propagated to every bootstrapping peer via snapshot pollution.
 
