@@ -1261,7 +1261,7 @@ complementary fix.
 # F133 validation — FingerprintStore direct DB writes during simulate cause fork + free poisoning
 
 Validator: validator (deliberate-disagreement role)
-Finding under test: `findings/drafts/F133-fingerprint-store-direct-db-writes-during-simulate-cause-fork-and-free-poisoning.md`
+Finding under test: `findings/F133-fingerprint-store-direct-db-writes-during-simulate-cause-fork-and-free-poisoning.md`
 Workspace HEAD: `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (branch `pow`)
 Audited code root: `code/hypersnap/`
 
@@ -2061,7 +2061,7 @@ specific input — just running the proposer pipeline as designed.
 # F138 validation — Proposer pipeline strips locks/transfers + signed anchor fields from wire broadcast
 
 Validator: validator (deliberate-disagreement role)
-Finding under test: `findings/drafts/F138-proposer-pipeline-strips-locks-transfers-and-signed-anchor-fields-from-wire-broadcast.md`
+Finding under test: `findings/F138-proposer-pipeline-strips-locks-transfers-and-signed-anchor-fields-from-wire-broadcast.md`
 Workspace HEAD: `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (branch `pow`)
 Audited code root: `code/hypersnap/`
 
@@ -2577,7 +2577,7 @@ invariant downstream.
 # F002 validation — Remote-triggerable panics in `add_proposed_value`
 
 Validator: validator (deliberate-disagreement role)
-Finding under test: `findings/drafts/F002-nil-block-proposal.md`
+Finding under test: `findings/F002-nil-block-proposal.md`
 Workspace HEAD: `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (branch `pow`)
 Audited code root: `code/hypersnap/`
 
@@ -3882,7 +3882,7 @@ Not critical because (a) it requires acquiring a low-FID account (some cost / fr
 # F009 validation — Sybil amplification via EigenTrust top-N normalization
 
 Validator: validator (deliberate-disagreement role)
-Finding under test: `findings/drafts/F009-sybil-amplification-via-eigentrust.md`
+Finding under test: `findings/F009-sybil-amplification-via-eigentrust.md`
 Workspace HEAD: `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (branch `pow`)
 Audited code root: `code/hypersnap/`
 
@@ -4875,7 +4875,7 @@ wide open.
 # F013 Validation Note — vouch puppet-pump default disabled
 
 **Validator:** validator (different agent, fresh frame)
-**Finding:** `findings/drafts/F013-vouch-puppet-pump-default-disabled.md`
+**Finding:** `findings/F013-vouch-puppet-pump-default-disabled.md`
 **Workspace pin:** `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (origin/pow tip — confirmed)
 **Approach:** 8-hypothesis red-team-your-own-finding walk per `red-team-finding` lesson.
 
@@ -5047,7 +5047,7 @@ mismatch between assertion and stated impact.
 
 - Read-only inspection: workspace `code/hypersnap/` per pinned SHA.
 - Written: `findings/notes/F013-validation.md` (this file).
-- Frontmatter edit: `findings/drafts/F013-vouch-puppet-pump-default-disabled.md` (validation block only).
+- Frontmatter edit: `findings/F013-vouch-puppet-pump-default-disabled.md` (validation block only).
 - Metrics: appended `.audit/metrics.jsonl`.
 
 ---
@@ -7982,7 +7982,7 @@ Critical absent a direct fund-loss chain.
 ## Files written / modified
 
 - `findings/notes/F028-validation.md` (this file).
-- `findings/drafts/F028-signing-payload-misses-hash-fields.md`
+- `findings/F028-signing-payload-misses-hash-fields.md`
   (frontmatter `validation:` block only; body untouched).
 - `.audit/metrics.jsonl` (appended).
 
@@ -9280,7 +9280,7 @@ caller must keep using a non-beacon-derived selector since it is
 
 # F036 validation — committee selection digest is proposer-grindable
 
-**Finding:** `findings/drafts/F036-committee-selection-digest-is-proposer-grindable.md`
+**Finding:** `findings/F036-committee-selection-digest-is-proposer-grindable.md`
 **Specialist:** rust-threshold-signing
 **Validator role:** deliberate disagreement (red-team)
 **Pinned commit:** `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae`
@@ -11020,7 +11020,7 @@ check found).
 # F105 validation — App-PoW receipts have no epoch / timestamp binding to the apply path; one signed receipt can be replayed across every future epoch
 
 Validator: validator (deliberate-disagreement role)
-Finding under test: `findings/drafts/F105-app-usage-receipt-no-epoch-binding-cross-epoch-replay.md`
+Finding under test: `findings/F105-app-usage-receipt-no-epoch-binding-cross-epoch-replay.md`
 Workspace HEAD: `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae`
 Audited code root: `code/hypersnap/`
 Related family: F101 (MiniappRegister no-chain-id), F104 (FeeDeposit no-shard-id), F158 (JFS webhook no-app-id). F105 is the epoch-binding variant on `AppUsageReceipt`.
@@ -11872,19 +11872,19 @@ attack; layered defense is best):
 
 ## Related
 
-- **F018** (`findings/drafts/F018-dkls-inner-sender-not-bound-to-libp2p-peer-id.md`):
+- **F018** (`findings/F018-dkls-inner-sender-not-bound-to-libp2p-peer-id.md`):
   documents wire `sender` byte spoofing. This finding is the
   cryptographic-layer companion: the inner `proof_commitment.index`
   byte is a SEPARATE attacker-chosen field that an F018 fix does not
   bind. Both findings should be fixed; neither alone is sufficient.
-- **F023** (`findings/drafts/F023-dkls-round-messages-dropped-and-cross-routed.md`):
+- **F023** (`findings/F023-dkls-round-messages-dropped-and-cross-routed.md`):
   documents network-layer drop/cross-route. Doesn't cover the inner
   index field semantics.
-- **F040** (`findings/drafts/F040-dkls-supervisor-no-retry-after-ceremony-abort.md`):
+- **F040** (`findings/F040-dkls-supervisor-no-retry-after-ceremony-abort.md`):
   amplifies this finding's `t < n` DoS variant — a single spoofed
   inbound aborts the ceremony, and the supervisor cannot retry within
   the epoch.
-- **F045** (`findings/drafts/F045-dkls-recovery-id-2-or-3-bricks-signing-no-retry.md`):
+- **F045** (`findings/F045-dkls-recovery-id-2-or-3-bricks-signing-no-retry.md`):
   separate DKLS path; not directly related.
 - **dkg.rs:1306-1486** (`test_dkg_initialization`): the in-tree DKG
   e2e test does NOT exercise the inner-index spoofing path because
@@ -12717,25 +12717,25 @@ In descending order of robustness — layer at least one, ideally all:
 
 ## Related
 
-- **F018** (`findings/drafts/F018-dkls-inner-sender-not-bound-to-libp2p-peer-id.md`):
+- **F018** (`findings/F018-dkls-inner-sender-not-bound-to-libp2p-peer-id.md`):
   wire-sender unbound to peer-id (DKG side). F108 is the
   signing-side variant of the same root cause family, with the
   added twist that **even with F018's fix in place**, the inner
   `parties.sender` byte is independent of the wire sender and
   remains attacker-controlled. Both findings must be fixed; a
   fix to F018 alone leaves F108 fully exploitable.
-- **F023** (`findings/drafts/F023-dkls-round-messages-dropped-and-cross-routed.md`):
+- **F023** (`findings/F023-dkls-round-messages-dropped-and-cross-routed.md`):
   DKG cross-routing. Signing's analog (sealed-to-recipient codec
   per per-recipient transport keys) appears stronger; not directly
   exploited here.
-- **F040** (`findings/drafts/F040-dkls-supervisor-no-retry-after-ceremony-abort.md`):
+- **F040** (`findings/F040-dkls-supervisor-no-retry-after-ceremony-abort.md`):
   amplifies F108's misattribution: a single spoofed packet aborts
   the sign with misdirected blame, and the supervisor can't retry
   within the same operator-coordinated retry window. Per-epoch
   hyperblock signing halts.
-- **F045** (`findings/drafts/F045-dkls-recovery-id-2-or-3-bricks-signing-no-retry.md`):
+- **F045** (`findings/F045-dkls-recovery-id-2-or-3-bricks-signing-no-retry.md`):
   separate sign-phase issue; doesn't intersect.
-- **F107** (`findings/drafts/F107-dkls-step5-skips-verification-for-self-claimed-proof-commitment-index.md`):
+- **F107** (`findings/F107-dkls-step5-skips-verification-for-self-claimed-proof-commitment-index.md`):
   DKG-side cousin of F108. F107's literal self-skip pattern does
   NOT exist in signing.rs (the signing loops iterate only over
   inbound counterparties, never self). What transfers is the
@@ -14488,7 +14488,7 @@ So lever (1) is the only open lever — and it is the load-bearing one.
 
 ## Cross-reference with H115 (kzg.rs)
 
-I checked `findings/drafts/F115-*.md` and `findings/notes/H115-ruled-out.md`
+I checked `findings/F115-*.md` and `findings/notes/H115-ruled-out.md`
 — neither exists at the time of writing. H115 has not yet produced a
 finding. The bug F116 reports is *not* in `kzg.rs` itself (the commit /
 open / verify primitives are correct given a correct SRS); it is at the
@@ -14591,7 +14591,7 @@ should be able to spot a basis mismatch.
   Lagrange→monomial conversion in G1:
   `code/hypersnap/crates/hypersnap-crypto/src/kzg_lagrange.rs:66-111`
 - Related (distinct) finding on the unsafe-random fallback path:
-  `findings/drafts/F048-kzg-srs-silent-random-tau-fallback-in-production-config.md`
+  `findings/F048-kzg-srs-silent-random-tau-fallback-in-production-config.md`
 
 ### Validation
 
@@ -15360,9 +15360,9 @@ With every insert at depth 33, neither panic site (A) nor (B) is reachable from 
 - Nullifier / commitment key constructors (the 33-byte side):
   `code/hypersnap/src/hyper/builder.rs:34-51`
 - Related (distinct) findings on the verkle/KZG stack:
-  - `findings/drafts/F048-kzg-srs-silent-random-tau-fallback-in-production-config.md` (different lever, same module)
-  - `findings/drafts/F116-kzg-loader-assumes-monomial-basis-no-lagrange-detection-or-conversion.md` (different lever, sibling H116)
-  - `findings/drafts/F058-...md` (live-bridge invalidation — confirms verkle is **not** on the L1-mint path, but **is** on hypersnap state-root path; informs severity)
+  - `findings/F048-kzg-srs-silent-random-tau-fallback-in-production-config.md` (different lever, same module)
+  - `findings/F116-kzg-loader-assumes-monomial-basis-no-lagrange-detection-or-conversion.md` (different lever, sibling H116)
+  - `findings/F058-...md` (live-bridge invalidation — confirms verkle is **not** on the L1-mint path, but **is** on hypersnap state-root path; informs severity)
 
 ### Validation
 
@@ -17624,10 +17624,10 @@ class on the proposal-parts channel.)
 # F151 validation — `SnapchainCodec` panics on peer-controlled Vote/Proposal/Sync-Commits
 
 Validator: validator (deliberate-disagreement role)
-Finding under test: `findings/drafts/F151-snapchain-codec-decode-panics-on-peer-vote-proposal-and-syncresponse.md`
+Finding under test: `findings/F151-snapchain-codec-decode-panics-on-peer-vote-proposal-and-syncresponse.md`
 Workspace HEAD: `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (branch `pow`)
 Audited code root: `code/hypersnap/`
-Sibling finding referenced: `findings/drafts/F002-nil-block-proposal.md` (see `findings/notes/F002-validation.md`).
+Sibling finding referenced: `findings/F002-nil-block-proposal.md` (see `findings/notes/F002-validation.md`).
 
 ## H1 — Upstream auth / gate
 
@@ -19094,7 +19094,7 @@ Until the wire format can be evolved, gate the receiver with a `(fid, signature)
 # F158 validation — JFS webhook: no app_id / nonce / timestamp binding → cross-app replay
 
 Validator: validator (deliberate-disagreement role)
-Finding under test: `findings/drafts/F158-jfs-webhook-no-app-id-or-nonce-binding-enables-cross-app-replay.md`
+Finding under test: `findings/F158-jfs-webhook-no-app-id-or-nonce-binding-enables-cross-app-replay.md`
 Workspace HEAD: `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (branch `pow`)
 Audited code root: `code/hypersnap/`
 Related family: F101 (custody-key JFS account-association proof, validated WATERPROOF), F104, F105 — same class "signed payload missing replay-domain bindings."
@@ -20559,7 +20559,7 @@ overpay is at minimum 1× `remaining_atoms` (the residual sweep).
 
 ### Why this *replay* shape is distinct from F012's *budget cap* shape
 
-`findings/drafts/F012-retro-vesting-bypasses-budget-cap.md` is a finding
+`findings/F012-retro-vesting-bypasses-budget-cap.md` is a finding
 on the same `apply_retro_vesting_tranche` function but a different
 attack class — `emission-budget-cap-missing`. F012 says: "the retro
 path never reads `max_reward_per_epoch[_per_market]` before minting, so
@@ -21572,7 +21572,7 @@ corruption.
 # F017 Validation Note — gossipsub mesh has no peer-scoring / outbound-min / validate_messages
 
 **Validator:** validator (deliberate disagreement, fresh frame; distinct from p2p-gossip specialist)
-**Finding:** `findings/drafts/F017-gossipsub-mesh-no-peer-scoring.md`
+**Finding:** `findings/F017-gossipsub-mesh-no-peer-scoring.md`
 **Workspace pin:** `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (branch `pow`, confirmed via `git rev-parse HEAD`)
 **Approach:** 8-hypothesis red-team-your-own-finding walk per the `red-team-finding` lesson; specific scrutiny on H1 (private-validator-network allowlist?) and H6 (exploitable harm when app layer authenticates every block?).
 
@@ -22142,7 +22142,7 @@ threshold-sig and importer verifiers still close the safety surface.
 # F019 Validation — no per-topic / per-variant gossip size cap
 
 **Validator:** validator agent (deliberate disagreement, fresh frame; distinct from p2p-gossip specialist).
-**Finding:** `findings/drafts/F019-no-per-topic-gossip-size-cap.md`
+**Finding:** `findings/F019-no-per-topic-gossip-size-cap.md`
 **Pinned commit:** `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (branch `pow`). Verified via `git rev-parse HEAD`.
 **Date:** 2026-05-20.
 **Approach:** 8-hypothesis red-team-your-own-finding walk per the `red-team-finding` lesson; specific scrutiny on H1 (does libp2p gossipsub `max_transmit_size` itself bound message size?) and H6 (does flood-publish + IWANT/IHAVE cache dedupe make sustained bandwidth-DoS unreachable?).
@@ -22783,7 +22783,7 @@ vector (line 762) require no opt-in and reach every validator.
 # F021 Validation Note — Auto-discovery ContactInfo not bound to libp2p peer-id
 
 **Validator:** validator (deliberate-disagreement frame; distinct from p2p-gossip specialist)
-**Finding:** `findings/drafts/F021-autodiscovery-contact-info-not-bound-to-libp2p-peer-id.md`
+**Finding:** `findings/F021-autodiscovery-contact-info-not-bound-to-libp2p-peer-id.md`
 **Workspace pin:** `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (branch `pow`, confirmed via `git rev-parse HEAD`)
 **Approach:** 8-hypothesis red-team walk per the `red-team-finding` lesson. Specific scrutiny on H6 (is `handle_contact_info` only invoked on read-nodes, what's validator-side exposure?) and H1 (is there a connection limit / peer-cap that bounds the dial flood?).
 
@@ -24033,7 +24033,7 @@ many validator slots under one FID.
   `maybe_trigger_da_responses`. These can issue rewards (F015) or
   rotate trust snapshots, all without sharing a commit boundary with
   the block-index puts.
-* `code/hypersnap/findings/drafts/F015-credit-if-unissued-two-puts-replay.md`
+* `code/hypersnap/findings/F015-credit-if-unissued-two-puts-replay.md`
   — sibling finding on a different witness of the same anti-pattern.
 * `.claude/agents/specialists/http-api-rocksdb.md` —
   `column-family-atomicity-around-fork` attack class:
@@ -24317,7 +24317,7 @@ Caveats:
 - Read: `code/hypersnap/src/storage/db/rocksdb.rs:190-310, 370-395`
 - Read: `code/hypersnap/src/bootstrap/replication/service.rs:1240-1325`
 - Written: `findings/notes/F033-validation.md`
-- Modified: `findings/drafts/F033-shard-chunk-header-split-from-state-commit.md` (frontmatter only, `validation:` block added)
+- Modified: `findings/F033-shard-chunk-header-split-from-state-commit.md` (frontmatter only, `validation:` block added)
 - Appended: `.audit/metrics.jsonl`
 
 ---
@@ -24663,11 +24663,11 @@ wire-integration if not fixed first.
 
   This finding is that follow-up: the AAD shape does not protect
   against the very misuse that H051 declined to call out.
-* `findings/drafts/F018-dkls-inner-sender-not-bound-to-libp2p-peer-id.md` —
+* `findings/F018-dkls-inner-sender-not-bound-to-libp2p-peer-id.md` —
   prior DKLS-side AAD finding. Cited here as the precedent that AAD
   binding is load-bearing in this codebase; the same shape gap
   exists in the privacy-note AEAD.
-* `findings/drafts/F023-dkls-round-messages-dropped-and-cross-routed.md` —
+* `findings/F023-dkls-round-messages-dropped-and-cross-routed.md` —
   the DKLS sign-AAD digest-binding finding. Same shape: AAD that
   omits a needed identifier produces cross-context substitution.
   The note-payload AAD omits the commitment in exactly the
@@ -24741,10 +24741,10 @@ wire-integration if not fixed first.
 
 ## Related
 
-- `findings/drafts/F018-dkls-inner-sender-not-bound-to-libp2p-peer-id.md`
+- `findings/F018-dkls-inner-sender-not-bound-to-libp2p-peer-id.md`
   — DKLS-wire AAD does not bind sender to libp2p peer-id; same
   primitive-level AAD-discipline shape.
-- `findings/drafts/F023-dkls-round-messages-dropped-and-cross-routed.md`
+- `findings/F023-dkls-round-messages-dropped-and-cross-routed.md`
   — DKLS sign AAD does not bind the signing digest; cross-routing
   consequence directly analogous to the swap consequence here.
 - `findings/notes/H051-ruled-out.md:88-102` — H051 explicitly
@@ -25171,7 +25171,7 @@ Drop the JFS proof for the register path entirely and use an EIP-712 typed signa
 # F101 validation — Custody-key JFS account-association proof has no chain-id / nonce / consumption binding
 
 Validator: validator (deliberate-disagreement role)
-Finding under test: `findings/drafts/F101-account-association-jfs-proof-replayable-no-chain-or-nonce-binding.md`
+Finding under test: `findings/F101-account-association-jfs-proof-replayable-no-chain-or-nonce-binding.md`
 Workspace HEAD: `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae`
 Audited code root: `code/hypersnap/`
 Related family: F104 (FeeDeposit cross-shard), F105 (AppUsageReceipt cross-epoch), F158 (JFS webhook cross-app) — same class of "signed payload missing replay-domain bindings."
@@ -27591,7 +27591,7 @@ need not be lenient.
 # F044 validation — `EcdsaSignature` does not enforce low-S; cross-side asymmetry between Rust `normalized_s()`-on-recover and OZ strict-reject
 
 Validator: validator (deliberate-disagreement role)
-Finding under test: `findings/drafts/F044-ecdsa-low-s-not-enforced-at-construction.md`
+Finding under test: `findings/F044-ecdsa-low-s-not-enforced-at-construction.md`
 Workspace HEAD: `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae` (branch `pow`)
 Audited code root: `code/hypersnap/`
 Pinned alloy-primitives version: `0.8.x` (Cargo.toml line 80: `alloy-primitives = "0.8.14"`; local cache resolves to `0.8.26`); `recover_from_prehash` body at
@@ -31325,7 +31325,7 @@ The wallet / signer UX would change in a back-compatible way (v2 payloads commit
 # F104 validation — FeeDeposit Ed25519 signing payload omits chain_id; cross-shard replay primitive (sibling of F101)
 
 Validator: validator (deliberate-disagreement role)
-Finding under test: `findings/drafts/F104-fee-deposit-no-chain-id-binding-replayable-across-hypersnap-shards.md`
+Finding under test: `findings/F104-fee-deposit-no-chain-id-binding-replayable-across-hypersnap-shards.md`
 Workspace HEAD: `6cff47c63791ce50255f64d4a5d3cd2ccf93a5ae`
 Audited code root: `code/hypersnap/`
 Related family: F101 (WATERPROOF 0.92), F105, F158 — all "signed payload missing replay-domain bindings."
@@ -32270,7 +32270,7 @@ Confidence is 0.90 rather than 0.95+ because:
 ## Summary
 
 This finding is a **same-root-cause variant of F107**
-(`findings/drafts/F107-dkls-step5-skips-verification-for-self-claimed-proof-commitment-index.md`).
+(`findings/F107-dkls-step5-skips-verification-for-self-claimed-proof-commitment-index.md`).
 The vulnerable code site is **identical** to F107's: `step5` at
 `dkg.rs:321-333`, where the verification of `DLogProof::decommit_verify`
 is gated on `party_j.index != party_index`. The defect: any inbound
@@ -32627,16 +32627,16 @@ this finding's severity should be re-evaluated and likely upgraded.
 
 ## Related
 
-- **F107** (`findings/drafts/F107-dkls-step5-skips-verification-for-self-claimed-proof-commitment-index.md`):
+- **F107** (`findings/F107-dkls-step5-skips-verification-for-self-claimed-proof-commitment-index.md`):
   ROOT-CAUSE PARENT. F110 = same code defect, different caller, distinct downstream consequence.
-- **F018** (`findings/drafts/F018-dkls-inner-sender-not-bound-to-libp2p-peer-id.md`):
+- **F018** (`findings/F018-dkls-inner-sender-not-bound-to-libp2p-peer-id.md`):
   wire `sender` byte not bound; would apply equally to refresh round messages if/when refresh is wired up.
-- **F023** (`findings/drafts/F023-dkls-round-messages-dropped-and-cross-routed.md`):
+- **F023** (`findings/F023-dkls-round-messages-dropped-and-cross-routed.md`):
   network-layer drop/cross-route; would apply to refresh round messages.
-- **F040** (`findings/drafts/F040-dkls-supervisor-no-retry-after-ceremony-abort.md`):
+- **F040** (`findings/F040-dkls-supervisor-no-retry-after-ceremony-abort.md`):
   if refresh is added under a similar supervisor with no-retry semantics, the
   `t < n` abort variant of this finding becomes a permanent epoch halt of refresh.
-- **F045** (`findings/drafts/F045-dkls-recovery-id-2-or-3-bricks-signing-no-retry.md`):
+- **F045** (`findings/F045-dkls-recovery-id-2-or-3-bricks-signing-no-retry.md`):
   separate path; not directly related.
 
 ### Validation
