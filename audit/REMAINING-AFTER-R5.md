@@ -51,7 +51,8 @@ current-epoch.
 4. No self-heal: the supervisor dispatches/installs DKG keyed on **offset** epoch numbers while the
    signer looks up **raw** numbers — they never converge for any nonzero cutover.
 
-**Runnable PoC** (real `apply_cutover` + `produce_signed_block_dkls_local`, nightly lib test):
+**Runnable PoC** (real `apply_cutover` + `produce_signed_block_dkls_local`, nightly lib test) —
+source + run instructions in [`poc/F004-cutover/`](poc/F004-cutover/README.md):
 ```
 cutover=5000000 EPOCH_LENGTH=432000
 epoch_for_with_offset(cutover, cutover) = 0   <- genesis keyed here
