@@ -61,3 +61,23 @@ The maintainer's regression test should assert the **correct** post-cutover beha
 (`current_epoch() == 0` immediately after `apply_cutover`, and the genesis proposer can
 produce) — i.e. the inverse of this PoC's assertions — so it goes red against R5 and green
 once the one-liner lands.
+
+## ✅ Resolved in R6 (`a1e866ab`)
+
+R6 landed exactly that one-liner at `src/hyper/runtime.rs:339`
+(`EpochManager::with_cutover(config.cutover_snapchain_block)`) **and** shipped the inverse
+regression test described above —
+`hyper::runtime::tests::cutover_aware_resolver_reports_epoch_zero_post_cutover`. We ran it on
+the R6 source (nightly, `--lib`); it **passes**:
+
+```
+running 1 test
+test hyper::runtime::tests::cutover_aware_resolver_reports_epoch_zero_post_cutover ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1656 filtered out; finished in 1.57s
+```
+
+At `cutover = 5,000,000` the test asserts `epoch_resolver.current_epoch() == 0` immediately
+after `apply_cutover`, installs the genesis share, and confirms `produce_signed_block_dkls_local`
+returns `Ok` — so the genesis proposer can produce its first post-cutover block. The launch-day
+chain-halt is closed. See [`../../REVALIDATION-a1e866ab.md`](../../REVALIDATION-a1e866ab.md) and
+[`../../REMAINING-AFTER-R6.md`](../../REMAINING-AFTER-R6.md).
