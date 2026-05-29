@@ -6,6 +6,23 @@
 
 **Status:** Iter-1 complete (29 validated). Iter-2 complete (27 validated). All 56 findings below survived an 8-hypothesis red-team validation pass; 1 was invalidated (F058, footnoted). See the [iter-2 spotlight](audit-index-iter2.md) for the new findings and the revalidation wins that contradicted iter-1 rulings. Dedupe (24 candidate pairs walked): 1 same-root-cause linkage (F107 ↔ F110), 20 related-but-distinct cross-references, 3 false-positive heuristics.
 
+## PR #32 — snapchain v17 compatibility port (separate PR, `4a6bca5`)
+
+A **distinct** PR from the #28 fix chain: [farcasterorg/hypersnap#32](https://github.com/farcasterorg/hypersnap/pull/32) drops in the snapchain v17 (FIP-268 LIVE_AT + gasless-signer) compatibility delta and pulls in this audit's F151 fix. Audited 2026-05-29 against the exact diff-to-main (`ab945ec..4a6bca5`, 3 commits, 20 files), with snapchain v0.12.0 as the v17 spec oracle. Full report: [REVALIDATION-4a6bca5.md](REVALIDATION-4a6bca5.md). Supporting materials: [PR32-materials/](PR32-materials/).
+
+**Headline:** **no fork / consensus-divergence risk introduced** — a full-function drift sweep confirmed byte-identical signed payloads, codec, certificate construction, validation predicates, activation trigger, and deterministic block application vs snapchain v0.12.0 (parity evidence: [F190](findings/F190-pr32-fork-drift-sweep-codec-types-parity.md), [F195](findings/F195-livet-validation-version-parity-confirmed.md)).
+
+| Finding | Severity | Class | Note |
+|---|---|---|---|
+| [F160](findings/F160-live-at-rate-limiter-unwrap-panic-on-non-hosted-shard-fid.md) | High | DoS (introduced reachability) | Always-on LIVE_AT limiter `shard_stores.get(shard).unwrap()` → default-reachable node crash for FIDs on a non-hosted shard. **Runnable PoC** ([poc/F160-live-at-shard-panic/](poc/F160-live-at-shard-panic/), [validation](notes/F160-validation.md)). Fix before mainnet V17 (2026-06-04). |
+| [F185](findings/F185-verify-signatures-residual-commit-certificate-panic.md) | High | DoS (incomplete fix) | The PR's own F151 fix is **incomplete**: `verify_signatures` still panics on peer-gossiped `Commits` via the read-node path that bypasses the fixed codec. One-line rewire to `try_to_commit_certificate` finishes it. |
+| [F165](findings/F165-signers-by-fid-nonce-amplification.md) | Low | amplification (inherited) | `get_signers_by_fid` unbounded `requester_fids` nonce-read loop (gRPC). |
+| [F166](findings/F166-http-get-signersbyfid-query-amplification.md) | Low | amplification (inherited) | Same sink via HTTP GET query string. |
+
+All four are DoS/liveness; **none can fork the chain**. F165/F166 (and the underlying F160/F185 logic) are verbatim-inherited from snapchain v0.12.0 — the PR newly *exposes* F160 and *partially fixes* F185. Upstream snapchain still carries the unfixed F002/F005/F151 codec-panic class.
+
+---
+
 ## Fix status — PR #28 (6 revalidation rounds; latest R6 `a1e866ab`)
 
 The maintainer (Cassandra Heart) landed **6 fix commits** on PR #28 in response to this audit, each independently revalidated by the audit-suite pipeline (static call-site tracing, augmented with an executed F009 simulation in R3, a full build in R4–R6, and executed runtime tests in R5–R6): [R1 (883c4a5b)](REVALIDATION-883c4a5b.md), [R2 (b14378a2)](REVALIDATION-b14378a2.md), [R3 (cf62383e)](REVALIDATION-cf62383e.md), [R4 (f2b062c8)](REVALIDATION-f2b062c8.md), [R5 (4a7d9c6)](REVALIDATION-4a7d9c6.md), [R6 (a1e866ab)](REVALIDATION-a1e866ab.md). The per-finding bodies below are unchanged and reflect the **original OPEN severity at the audited base** (`6cff47c…`); this section is the overlay describing current state on the `pow` branch.

@@ -1,0 +1,468 @@
+   Compiling serde_core v1.0.228
+   Compiling ring v0.17.14
+   Compiling crunchy v0.2.4
+   Compiling tiny-keccak v2.0.2
+   Compiling rustversion v1.0.21
+   Compiling serde v1.0.228
+   Compiling uint v0.10.0
+   Compiling bytes v1.10.1
+   Compiling smallvec v1.15.1
+   Compiling hashbrown v0.15.4
+   Compiling rand v0.8.5
+   Compiling semver v1.0.26
+   Compiling deranged v0.4.0
+   Compiling const-hex v1.14.1
+   Compiling arrayvec v0.7.6
+   Compiling serde_json v1.0.141
+   Compiling multihash v0.19.3
+   Compiling parking_lot_core v0.9.11
+   Compiling icu_normalizer v2.0.0
+   Compiling http v1.3.1
+   Compiling rustc_version v0.4.1
+   Compiling indexmap v2.10.0
+   Compiling alloy-rlp v0.3.12
+   Compiling time v0.3.41
+   Compiling parking_lot v0.12.4
+   Compiling alloy-sol-type-parser v0.8.25
+   Compiling http v0.2.12
+   Compiling multistream-select v0.13.0
+   Compiling ruint v1.15.0
+   Compiling curve25519-dalek v4.1.3
+   Compiling http-body v1.0.1
+   Compiling tokio v1.46.1
+   Compiling idna_adapter v1.2.1
+   Compiling http-body-util v0.1.3
+   Compiling alloy-primitives v0.8.25
+   Compiling http-body v0.4.6
+   Compiling lru v0.12.5
+   Compiling bytes-utils v0.1.4
+   Compiling uuid v1.17.0
+   Compiling idna v1.0.3
+   Compiling dashmap v6.1.0
+   Compiling strum_macros v0.26.4
+   Compiling nybbles v0.3.4
+   Compiling serde_urlencoded v0.7.1
+   Compiling asynchronous-codec v0.7.0
+   Compiling asn1-rs v0.7.1
+   Compiling url v2.5.4
+   Compiling alloy-json-abi v0.8.25
+   Compiling informalsystems-malachitebft-core-types v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/core-types)
+   Compiling quick-protobuf-codec v0.3.1
+   Compiling prometheus-client v0.22.3
+   Compiling yasna v0.5.2
+   Compiling snow v0.9.6
+   Compiling alloy-sol-macro-input v0.8.25
+   Compiling oid-registry v0.8.1
+   Compiling ed25519-dalek v2.2.0
+   Compiling der-parser v10.0.0
+   Compiling moka v0.12.10
+   Compiling aws-types v1.3.7
+   Compiling libp2p-identity v0.2.12
+   Compiling toml_datetime v0.6.11
+   Compiling tokio-util v0.7.15
+   Compiling tower v0.5.2
+   Compiling alloy-sol-macro-expander v0.8.25
+   Compiling alloy-eip2930 v0.1.0
+   Compiling alloy-eip7702 v0.4.2
+   Compiling h2 v0.4.11
+   Compiling multiaddr v0.18.2
+   Compiling aws-smithy-types v1.3.2
+   Compiling tokio-native-tls v0.3.1
+   Compiling aws-smithy-async v1.2.5
+   Compiling tower-http v0.6.6
+   Compiling alloy-serde v0.8.3
+   Compiling strum v0.26.3
+   Compiling alloy-trie v0.7.9
+   Compiling netlink-sys v0.8.7
+   Compiling hyper v1.6.0
+   Compiling h2 v0.3.27
+   Compiling tokio-stream v0.1.17
+   Compiling aws-smithy-runtime-api v1.8.4
+   Compiling alloy-eips v0.8.3
+   Compiling libp2p-core v0.43.1
+   Compiling netlink-proto v0.11.5
+   Compiling aws-smithy-eventstream v0.60.10
+   Compiling hyper-util v0.1.15
+   Compiling rustls v0.23.29
+   Compiling rustls v0.21.12
+   Compiling rtnetlink v0.13.1
+   Compiling hickory-proto v0.25.0-alpha.5
+   Compiling aws-smithy-http v0.62.2
+   Compiling aws-credential-types v1.2.4
+   Compiling alloy-consensus v0.8.3
+   Compiling x509-parser v0.17.0
+   Compiling alloy-sol-macro v0.8.25
+   Compiling serde_spanned v0.6.9
+   Compiling toml_edit v0.22.27
+   Compiling aws-smithy-observability v0.1.3
+   Compiling rustls-webpki v0.103.4
+   Compiling libp2p-swarm v0.46.0
+   Compiling sct v0.7.1
+   Compiling rustls-webpki v0.101.7
+   Compiling hyper v0.14.32
+   Compiling alloy-consensus-any v0.8.3
+   Compiling alloy-network-primitives v0.8.3
+   Compiling if-watch v3.2.1
+   Compiling rcgen v0.13.2
+   Compiling hickory-resolver v0.25.0-alpha.5
+   Compiling libp2p-gossipsub v0.48.0
+   Compiling libp2p-kad v0.47.0
+   Compiling libp2p-ping v0.46.0
+   Compiling libp2p-identify v0.46.0
+   Compiling alloy-sol-types v0.8.25
+   Compiling hyper-tls v0.6.0
+   Compiling tokio-rustls v0.24.1
+   Compiling solar-config v0.1.1
+   Compiling x25519-dalek v2.0.1
+   Compiling informalsystems-malachitebft-core-state-machine v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/core-state-machine)
+   Compiling tokio-rustls v0.26.2
+   Compiling hyper-rustls v0.24.2
+   Compiling quinn-proto v0.11.12
+   Compiling futures-rustls v0.26.0
+   Compiling lasso v0.7.3
+   Compiling hyper-rustls v0.27.7
+   Compiling libp2p-tls v0.6.2
+   Compiling solar-data-structures v0.1.1
+   Compiling yamux v0.13.5
+   Compiling yamux v0.12.1
+   Compiling cbor4ii v0.3.3
+   Compiling reqwest v0.12.22
+   Compiling aws-smithy-http-client v1.0.6
+   Compiling solar-interface v0.1.1
+   Compiling libp2p-request-response v0.28.0
+   Compiling libp2p-metrics v0.16.0
+   Compiling libp2p-yamux v0.47.0
+   Compiling libp2p-mdns v0.47.0
+   Compiling libp2p-tcp v0.43.0
+   Compiling libp2p-noise v0.46.1
+   Compiling libp2p-dns v0.43.0
+   Compiling quinn v0.11.8
+   Compiling libp2p-connection-limits v0.5.0
+   Compiling libp2p-allow-block-list v0.5.0
+   Compiling toml v0.8.23
+   Compiling aws-sigv4 v1.3.3
+   Compiling alloy-signer v0.8.3
+   Compiling num_enum v0.7.4
+   Compiling libp2p-quic v0.12.0
+   Compiling svm-rs v0.5.22
+   Compiling prost v0.11.9
+   Compiling libz-sys v1.1.22
+   Compiling aws-smithy-runtime v1.8.5
+   Compiling tikv-jemalloc-sys v0.6.1+5.3.0-1-ge13ca993e8ccb9ba9847cc330696e02839f328f7
+   Compiling solar-ast v0.1.1
+   Compiling lalrpop v0.20.2
+   Compiling prost-types v0.11.9
+   Compiling foundry-compilers-core v0.12.9
+   Compiling alloy-chains v0.1.69
+   Compiling informalsystems-malachitebft-metrics v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/metrics)
+   Compiling alloy-json-rpc v0.8.3
+   Compiling alloy-rpc-types-eth v0.8.3
+   Compiling libp2p v0.55.0
+   Compiling svm-rs-builds v0.5.22
+   Compiling foundry-compilers-artifacts-solc v0.12.9
+   Compiling aws-smithy-json v0.61.4
+   Compiling simple_asn1 v0.6.3
+   Compiling aws-runtime v1.5.9
+   Compiling alloy-transport v0.8.3
+   Compiling prost-build v0.11.9
+   Compiling jsonwebtoken v9.3.1
+   Compiling lz4-sys v1.11.1+lz4-1.10.0
+   Compiling tantivy-common v0.7.0
+   Compiling alloy-transport-http v0.8.3
+   Compiling bzip2-sys v0.1.13+1.0.8
+   Compiling alloy-rpc-types-any v0.8.3
+   Compiling solar-parse v0.1.1
+   Compiling informalsystems-malachitebft-peer v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/peer)
+   Compiling bitpacking v0.9.2
+   Compiling alloy-pubsub v0.8.3
+   Compiling alloy-rpc-client v0.8.3
+   Compiling alloy-network v0.8.3
+   Compiling tantivy-bitpacker v0.6.0
+   Compiling tungstenite v0.24.0
+   Compiling revm-primitives v14.0.0
+   Compiling libdeflate-sys v0.12.0
+   Compiling alloy-rpc-types-engine v0.8.3
+   Compiling tonic-build v0.9.2
+   Compiling tower v0.4.13
+   Compiling alloy-dyn-abi v0.8.25
+   Compiling crossterm v0.28.1
+   Compiling informalsystems-malachitebft-core-votekeeper v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/core-votekeeper)
+   Compiling axum-core v0.4.5
+   Compiling rand_distr v0.4.3
+   Compiling interprocess v2.2.3
+   Compiling snapchain-proto v0.11.0 (/mnt/c/Projects/hypersnap-revalidation-v2/code/hypersnap/proto)
+   Compiling solang-parser v0.3.3
+   Compiling tantivy-stacker v0.3.0
+   Compiling humantime-serde v1.1.1
+   Compiling comfy-table v7.1.4
+   Compiling aws-smithy-query v0.60.7
+   Compiling config v0.14.1
+   Compiling tokio-tungstenite v0.24.0
+   Compiling bon v2.3.0
+   Compiling axum v0.7.9
+   Compiling prost v0.13.5
+   Compiling informalsystems-malachitebft-core-driver v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/core-driver)
+   Compiling alloy-rpc-types v0.8.3
+   Compiling figment v0.10.19
+   Compiling foundry-compilers-artifacts-vyper v0.12.9
+   Compiling alloy-provider v0.8.3
+   Compiling tantivy-sstable v0.3.0
+   Compiling informalsystems-malachitebft-sync v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/sync)
+   Compiling informalsystems-malachitebft-discovery v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/discovery)
+   Compiling libp2p-scatter v0.2.0
+   Compiling hyper-timeout v0.5.2
+   Compiling mesc v0.3.0
+   Compiling serde_regex v1.1.0
+   Compiling tracing-serde v0.2.0
+   Compiling bytesize v1.3.3
+   Compiling foundry-compilers-artifacts v0.12.9
+   Compiling tantivy-columnar v0.3.0
+   Compiling tracing-subscriber v0.3.19
+   Compiling informalsystems-malachitebft-wal v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/wal)
+   Compiling tonic v0.12.3
+   Compiling blake3 v1.8.2
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/wal/src/log.rs:413:24
+    |
+413 | ...ry(&mut self) -> io::Result<Option<LogEntry<S>>> {
+    |       ^^^^^^^^^                       ^^^^^^^^^^^ the same lifetime is hidden here
+    |       |
+    |       the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+413 |     pub fn first_entry(&mut self) -> io::Result<Option<LogEntry<'_, S>>> {
+    |                                                                 +++
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/wal/src/log.rs:435:17
+    |
+435 | ...er(&mut self) -> io::Result<LogIter<S>> {
+    |       ^^^^^^^^^                ^^^^^^^^^^ the same lifetime is hidden here
+    |       |
+    |       the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+435 |     pub fn iter(&mut self) -> io::Result<LogIter<'_, S>> {
+    |                                                  +++
+
+warning: `informalsystems-malachitebft-wal` (lib) generated 2 warnings (run `cargo fix --lib -p informalsystems-malachitebft-wal` to apply 2 suggestions)
+   Compiling foundry-compilers v0.12.9
+   Compiling informalsystems-malachitebft-config v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/config)
+   Compiling aws-smithy-checksums v0.63.5
+   Compiling alloy-contract v0.8.3
+   Compiling foundry-common-fmt v0.2.0 (https://github.com/foundry-rs/foundry?rev=6b07c77eb1c1d1c4b56ffa7f79240254b73236d2#6b07c77e)
+   Compiling libdeflater v0.12.0
+   Compiling informalsystems-malachitebft-network v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/network)
+   Compiling informalsystems-malachitebft-core-consensus v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/core-consensus)
+   Compiling alloy-transport-ws v0.8.3
+   Compiling ractor v0.14.7
+   Compiling flate2 v1.1.2
+   Compiling aws-sdk-sts v1.78.0
+   Compiling alloy-transport-ipc v0.8.3
+   Compiling aws-sdk-sso v1.76.0
+   Compiling aws-sdk-ssooidc v1.77.0
+   Compiling arc-swap v1.8.0
+   Compiling informalsystems-malachitebft-codec v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/codec)
+   Compiling num-format v0.4.4
+   Compiling sketches-ddsketch v0.2.2
+   Compiling rust-stemmers v1.2.0
+   Compiling tantivy-tokenizer-api v0.3.0
+   Compiling governor v0.10.0
+   Compiling csv v1.4.0
+   Compiling insta v1.43.1
+   Compiling serial_test v3.2.0
+   Compiling tantivy v0.22.1
+   Compiling gzp v0.11.3
+   Compiling tracing-test v0.2.5
+   Compiling tokio-cron-scheduler v0.13.0
+   Compiling aws-config v1.8.2
+   Compiling aws-sdk-s3 v1.98.0
+   Compiling alloy-signer-local v0.8.3
+   Compiling tokio-retry2 v0.5.7
+   Compiling foundry-block-explorers v0.9.0
+   Compiling twox-hash v1.6.3
+   Compiling serde_qs v0.13.0
+   Compiling informalsystems-malachitebft-engine v0.0.1 (/mnt/c/Projects/hypersnap-revalidation-v2/code/malachite/code/crates/engine)
+   Compiling foundry-config v0.2.0 (https://github.com/foundry-rs/foundry?rev=6b07c77eb1c1d1c4b56ffa7f79240254b73236d2#6b07c77e)
+   Compiling foundry-common v0.2.0 (https://github.com/foundry-rs/foundry?rev=6b07c77eb1c1d1c4b56ffa7f79240254b73236d2#6b07c77e)
+   Compiling librocksdb-sys v0.18.0+10.7.5 (https://github.com/rust-rocksdb/rust-rocksdb.git?rev=a4f178d0ca668c4b48d993ab8aef6f4004780f23#a4f178d0)
+   Compiling tikv-jemalloc-ctl v0.6.1
+   Compiling tikv-jemallocator v0.6.1
+   Compiling rocksdb v0.24.0 (https://github.com/rust-rocksdb/rust-rocksdb.git?rev=a4f178d0ca668c4b48d993ab8aef6f4004780f23#a4f178d0)
+   Compiling snapchain v0.11.6 (/mnt/c/Projects/hypersnap-revalidation-v2/code/hypersnap)
+warning: unused imports: `Bio`, `UserProfile`, and `VerifiedAddresses`
+  --> src/api/http.rs:17:11
+   |
+17 |     self, Bio, BlockListResponse, BulkCastsResponse, BulkUsersResponse, Ca...
+   |           ^^^
+...
+24 |     UserProfile, UserResponse, UsernameProofResponse, Verif...esses,
+   |     ^^^^^^^^^^^                                       ^^^^^...^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `tracing::warn`
+  --> src/api/notifications/send_handler.rs:32:5
+   |
+32 | use tracing::warn;
+   |     ^^^^^^^^^^^^^
+
+warning: unused import: `WebhookSubscription`
+  --> src/api/webhooks/filter.rs:32:5
+   |
+32 |     Webho...ption,
+   |     ^^^^^...^^^^^
+
+warning: unused import: `self`
+   --> src/api/webhooks/filter.rs:588:9
+    |
+588 | ...   self, l...
+    |       ^^^^
+
+warning: unused import: `crate::api::indexer::NoOpIndexer`
+   --> src/api/worker.rs:197:9
+    |
+197 | ...se crate...dexer;
+    |       ^^^^^...^^^^^
+
+warning: variant `SIGNER_SOURCE_NONE` should have an upper camel case name
+    --> src/network/http_server.rs:1155:5
+     |
+1155 |     SIGNE..._NONE = 0,
+     |     ^^^^^...^^^^^ help: convert the identifier to upper camel case: `SignerSourceNone`
+     |
+     = note: `#[warn(non_camel_case_types)]` (part of `#[warn(nonstandard_style)]`) on by default
+
+warning: variant `SIGNER_SOURCE_ONCHAIN` should have an upper camel case name
+    --> src/network/http_server.rs:1156:5
+     |
+1156 |     SIGNE...CHAIN = 1,
+     |     ^^^^^...^^^^^ help: convert the identifier to upper camel case: `SignerSourceOnchain`
+
+warning: variant `SIGNER_SOURCE_OFFCHAIN` should have an upper camel case name
+    --> src/network/http_server.rs:1157:5
+     |
+1157 |     SIGNE...CHAIN = 2,
+     |     ^^^^^...^^^^^ help: convert the identifier to upper camel case: `SignerSourceOffchain`
+
+warning: unused imports: `delete_message_transaction`, `get_message`, `make_message_primary_key`, and `put_message_transaction`
+ --> src/storage/store/account/store.rs:3:5
+  |
+3 |     delet...ction, delete_message...
+  |     ^^^^^...^^^^^
+4 |     get_message, get_message_with_prefix, get_...
+  |     ^^^^^^^^^^^
+5 |     make_...y_key, make_message_pri...
+  |     ^^^^^...^^^^^
+6 |     message_encode, put_m...ction, p...
+  |                     ^^^^^...^^^^^
+
+warning: unused variable: `key`
+   --> src/api/channels.rs:629:18
+    |
+629 | ...  |key, v...
+    |       ^^^ help: if this is intentional, prefix it with an underscore: `_key`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `checkpoint`
+  --> src/api/social_graph.rs:64:13
+   |
+64 | ...et checkpoint = ...
+   |       ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_checkpoint`
+
+warning: unused variable: `block_shard`
+  --> src/node/snapchain_node.rs:60:13
+   |
+60 | ...et block_shard = ...
+   |       ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_block_shard`
+
+warning: unused variable: `ctx`
+   --> src/storage/store/account/username_proof_store.rs:210:9
+    |
+210 | ...   ctx: S...
+    |       ^^^ help: if this is intentional, prefix it with an underscore: `_ctx`
+
+warning: function `fresh_store` is never used
+   --> src/api/notifications/webhook_handler.rs:374:8
+    |
+374 | ...fn fresh_store() ...
+    |       ^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `db` is never read
+  --> src/api/worker.rs:15:5
+   |
+12 | pub struct Index...rPool {
+   |            -----...----- field in this struct
+...
+15 |     db: Arc<RocksDB>,
+   |     ^^
+
+warning: method `simulate_message_for_shard` is never used
+   --> src/network/server.rs:720:14
+    |
+384 | impl ...rvice {
+    | -----...----- method in this implementation
+...
+720 |     async fn simul...shard(
+    |              ^^^^^...^^^^^
+
+warning: associated function `link_compact_state_add_key` is never used
+   --> src/storage/store/account/link_store.rs:225:8
+    |
+ 52 | impl ...Store {
+    | -----...----- associated function in this implementation
+...
+225 |     fn link_...d_key(fi...
+    |        ^^^^^...^^^^^
+
+warning: associated functions `make_storage_lend_primary_key` and `by_borrower_secondary_index_key` are never used
+   --> src/storage/store/account/storage_lend_store.rs:181:8
+    |
+179 | impl ...reDef {
+    | -----...----- associated functions in this implementation
+180 |     #[inline]
+181 |     fn make_...y_key(from...
+    |        ^^^^^...^^^^^
+...
+199 |     fn by_bo...x_key(me...
+    |        ^^^^^...^^^^^
+
+warning: associated function `make_user_data_adds_key` is never used
+   --> src/storage/store/account/user_data_store.rs:157:8
+    |
+148 | impl ...reDef {
+    | -----...----- associated function in this implementation
+...
+157 |     fn make_...s_key(fi...
+    |        ^^^^^...^^^^^
+
+warning: function `assert_hyper_missing` is never used
+  --> src/storage/store/engine_tests.rs:90:8
+   |
+90 | ...fn asser...ssing(en...
+   |       ^^^^^...^^^^^
+
+warning: `snapchain` (lib test) generated 20 warnings (run `cargo fix --lib -p snapchain --tests` to apply 10 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9m 38s
+warning: the following packages contain code that will be rejected by a future version of Rust: proc-macro-error2 v2.0.1
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 1`
+     Running unittests src/lib.rs (target-wsl-pr32/debug/deps/snapchain-82bbbc3bb65171d3)
+
+running 1 test
+
+thread 'mempool::mempool_test::tests::f160_poc_live_at_unwrap_panic_on_non_hosted_shard' (11487) panicked at src/mempool/mempool.rs:212:59:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test mempool::mempool_test::tests::f160_poc_live_at_unwrap_panic_on_non_hosted_shard ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 977 filtered out; finished in 0.20s
+
+TEST_EXIT=0
