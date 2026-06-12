@@ -5,6 +5,8 @@
 **Repository:** https://github.com/farcasterorg/hypersnap
 **Pipeline:** audit-suite + audit-suite-brain @ `b2c8f8bade0b`
 
+> **⚠️ Fix-status overlay — fix commit [`5c25945`](https://github.com/farcasterorg/hypersnap/commit/5c2594563df84c374fdce7cdeae06d3444da3b72) ("audit fixes", 2026-06-12).** Revalidated against this direct child of `cab225f`. **Scoreboard (22 active findings):** ✅ FIXED 15 — F009, F012, F013, F015, F016, F021, F022, F024, F025, **F028**, F035, F036, F039, F068, F070 · ⚠️ PARTIAL 4 — **F002** (intersection fix lands, but the `slashed_validators_for_epoch`↔`get_active_validators_enforced` self-recursion chain-halt remains — one evidence row), **F011**, **F018**, **F049** (Rust honest-signer cap only; contract unbounded) · ❌ NOT FIXED 3 — **F045**, **F047**, **F048** · ➖ N/A — F003 (already invalidated). **Headline:** the Critical (F028) is closed, but the Solidity bridge contract `HypersnapBridge.sol` was **not modified at all** (byte-identical at this commit), leaving the entire bridge-watermark cluster (F045/F047/F048/F049) effectively unaddressed. Per-finding bodies below are unchanged and reflect the **original OPEN state at `cab225f`**. Full revalidation: [REVALIDATION-5c25945.md](REVALIDATION-5c25945.md) · per-cluster detail: [materials/revalidation-5c25945/](materials/revalidation-5c25945/).
+
 ## TL;DR
 
 **Revalidation of PR #34 ("proof of work (restored)", `cab225f`) against the prior audit of `pow`@`6449331`.**

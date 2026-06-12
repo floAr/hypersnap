@@ -7,9 +7,22 @@
 
 > This is a **separate audit lineage** from the PR #32 / PR #28 findings in [`../`](../README.md); its F-numbers are an independent namespace and do **not** correspond to the same-numbered findings there.
 
-## Revalidation verdict
+## Revalidation verdict (audit base `cab225f`)
 - **Prior F001 (Critical — unsigned slashing evidence): FIXED.** `verify_evidence_signatures` now gates ingestion; no bypass path.
 - **Prior F002 (High — lock admission skips verification): NOT fully fixed** → re-surfaces as [F035](findings/F035-hyperlockevent-mint-without-balance-closure.md).
+
+## Fix status — fix commit `5c25945` ("audit fixes")
+
+The maintainer (Cassandra Heart) landed a single fix commit [`5c25945`](https://github.com/farcasterorg/hypersnap/commit/5c2594563df84c374fdce7cdeae06d3444da3b72) (2026-06-12, direct child of the audited base) addressing this report. Revalidated by the audit-suite pipeline (static call-site tracing, 7 domain specialists). Full report: [REVALIDATION-5c25945.md](REVALIDATION-5c25945.md); per-cluster detail: [materials/revalidation-5c25945/](materials/revalidation-5c25945/).
+
+| Severity | Fixed | Partial | Not fixed | N/A |
+|---|---|---|---|---|
+| **Critical (1)** | F028 | — | — | — |
+| **High (13)** | F009, F012, F013, F016, F024, F025, F035, F070 | F002, F049 | F045, F047 | F003 (invalidated) |
+| **Medium (8)** | F015, F021, F022, F039, F068 | F011, F018 | F048 | — |
+| **Low (1)** | F036 | — | — | — |
+
+**Critical closed; 15 of 22 active findings fixed.** Residual risk concentrates in the **untouched Solidity bridge contract** (`HypersnapBridge.sol` is byte-identical at this commit → F045/F047/F048/F049 unaddressed; F049's lone Rust-side cap does not constrain a Byzantine signer) and one **still-live chain-halt** in the otherwise-fixed F002 (`slashed_validators_for_epoch`↔`get_active_validators_enforced` self-recursion). **Recommended re-report set:** F002, F045, F047, F048, F049 (+ partial hardening F011, F018). Per-finding bodies below are unchanged and reflect the **original OPEN state at `cab225f`**; this section is the overlay describing current state on the `pow` branch.
 
 ## Reports
 - [REPORT.md](REPORT.md) — full report, all 23 findings.

@@ -6,9 +6,31 @@
 **Pipeline:** audit-suite + audit-suite-brain @ `b2c8f8bade0b`
 **Scope of this document:** the **13 Critical/High findings that survived adversarial validation** (verdict ≠ INVALIDATED) and are rooted in code PR #34 introduced. For the full set (23 findings incl. Medium/Low and the 1 invalidated), see [REPORT.md](REPORT.md); per-finding reachability traces are in [`traces/`](traces/).
 
-## Revalidation verdict
+## Revalidation verdict (prior audit, base `cab225f`)
 - **Prior F001 (Critical — unsigned slashing evidence): FIXED.** `verify_evidence_signatures` now gates evidence ingestion; no bypass path found.
 - **Prior F002 (High — lock admission skips verification): NOT fully fixed** → re-surfaces here as **F035**.
+
+## Fix status — fix commit `5c25945` ("audit fixes", 2026-06-12)
+
+Overlay over the 13 Critical/High below, revalidated against [`5c25945`](https://github.com/farcasterorg/hypersnap/commit/5c2594563df84c374fdce7cdeae06d3444da3b72) (direct child of `cab225f`). Full report: [REVALIDATION-5c25945.md](REVALIDATION-5c25945.md). Per-finding bodies below are **unchanged** and reflect the original OPEN state at `cab225f`.
+
+| ID | Sev | Fix status | Residual (if any) |
+|----|-----|-----------|-------------------|
+| F028 | Critical | ✅ **FIXED** | BFT-safe `floor(2n/3)+1` derived in `build_driver`; static `=1` ignored for real sets |
+| F070 | High | ✅ **FIXED** | Production router now `.with_custody_resolver(...)`; lenient `None` branch unreachable |
+| F013 | High | ✅ **FIXED** | `height`/`round` None-guarded on the gossip decode arm |
+| F016 | High | ✅ **FIXED** | `PENDING_DKLS_INBOUND_EPOCH_CAP=16` + eldest-epoch eviction |
+| F024 | High | ✅ **FIXED** | `propagation_source` preserved + re-checked on drain (all 3 submit sites) |
+| F025 | High | ✅ **FIXED** | Keccak permutation over `(epoch,set_hash,key)` replaces lexicographic index map (grind now hard, not free) |
+| F035 | High | ✅ **FIXED** | Transparent-lock path rejected at ingress **and** block-import chokepoint (`importer.rs:269`) |
+| F012 | High | ✅ **FIXED** | `hash==blake3(header)` re-derived + enforced on proposer + read-validator paths |
+| F009 | High | ✅ **FIXED** | Conflict now keyed on signature-free `hyper_block_content_hash` |
+| **F049** | High | ⚠️ **PARTIAL** | Rust honest-signer cap only; **contract has no `blockNumber` bound** → Byzantine-signer brick + `executeUpgrade` theft still open |
+| **F002** | High | ⚠️ **PARTIAL** | INTERSECTION fix closes false-slash, but `slashed_validators_for_epoch`↔`get_active_validators_enforced` **self-recursion chain-halt remains** (one evidence row) |
+| **F045** | High | ❌ **NOT FIXED** | `HypersnapBridge.sol` untouched; no chainId/address binding on universal digests |
+| **F047** | High | ❌ **NOT FIXED** | `rotateOwner` still on shared watermark; public front-run primitive intact |
+
+**Critical closed; 9/13 crit-high fixed.** Headline residual: the Solidity bridge contract was **not modified at all** (F045/F047 not fixed, F049 partial, Medium F048 not fixed), and F002 still carries a one-row chain-halt DoS. **Re-report set:** F002, F045, F047, F048, F049.
 
 ## Summary table
 
