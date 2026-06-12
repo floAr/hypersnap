@@ -1,0 +1,9 @@
+No files changed, compilation skipped
+
+Ran 3 tests for test/Residual5c25945.t.sol:Residual5c25945
+[PASS] test_F047_rotationFrontRun_attackerSeizesOwnership() (gas: 53896)
+[PASS] test_F048_pauseDoesNotGateProposeUpgrade_lockoutDefeated() (gas: 85567)
+[PASS] test_F049_watermarkSaturationBricksRecovery_executeUpgradeSurvives() (gas: 101011)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 2.64ms (4.32ms CPU time)
+
+Ran 1 test suite in 9.66ms (2.64ms CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)

@@ -24,6 +24,10 @@ The maintainer (Cassandra Heart) landed a single fix commit [`5c25945`](https://
 
 **Critical closed; 15 of 22 active findings fixed.** Residual risk concentrates in the **untouched Solidity bridge contract** (`HypersnapBridge.sol` is byte-identical at this commit → F045/F047/F048/F049 unaddressed; F049's lone Rust-side cap does not constrain a Byzantine signer) and one **still-live chain-halt** in the otherwise-fixed F002 (`slashed_validators_for_epoch`↔`get_active_validators_enforced` self-recursion). **Recommended re-report set:** F002, F045, F047, F048, F049 (+ partial hardening F011, F018). Per-finding bodies below are unchanged and reflect the **original OPEN state at `cab225f`**; this section is the overlay describing current state on the `pow` branch.
 
+### Merge blockers (single-deployment assumption)
+
+See **[MERGE-BLOCKERS-5c25945.md](MERGE-BLOCKERS-5c25945.md)** — tailored merge-gate report with **runnable PoCs**. Assuming a single canonical deployment (F045 → Informational): **1 hard blocker** — F002 chain-halt (one captured epoch committee → permanent network-wide halt; reproduced via stack-overflow model, in-crate test authored for CI) — plus the **conditional** bridge-recovery cluster F049/F047/F048 (gate the merge only if owner/threshold-key-compromise recovery is a shipped guarantee; all three **reproduced with a passing Foundry test**, [poc/residual-5c25945-bridge/](poc/residual-5c25945-bridge/)). None of the bridge cluster was touched by the fix commit.
+
 ## Reports
 - [REPORT.md](REPORT.md) — full report, all 23 findings.
 - [REPORT-critical-high.md](REPORT-critical-high.md) — condensed report: the 22 verified Critical/High findings.

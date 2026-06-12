@@ -1,0 +1,13 @@
+﻿cargo :     Finished `release` profile [optimized] target(s) in 0.02s
+In Zeile:1 Zeichen:107
++ ... env:CARGO_TERM_COLOR='never'; $out = cargo run --release 2>&1 | Out-S ...
++                                          ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (    Finished `r...get(s) in 0.02s:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+     Running `target\release\f002_model.exe`
+BENIGN (same-epoch evidence) get_active_validators_enforced(2): Ok(())
+
+thread '<unknown>' (38872) has overflowed its stack
+error: process didn't exit successfully: `target\release\f002_model.exe` (exit code: 0xc00000fd, STATUS_STACK_OVERFLOW)
+
