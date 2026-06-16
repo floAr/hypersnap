@@ -1,0 +1,19 @@
+
+running 2 tests
+test hyper::runtime::tests::slashing_resolves_signer_index_in_lexicographic_not_party_order ... ok
+test hyper::runtime::tests::slashing_must_slash_true_party_order_signer ... FAILED
+
+failures:
+
+---- hyper::runtime::tests::slashing_must_slash_true_party_order_signer stdout ----
+
+thread 'hyper::runtime::tests::slashing_must_slash_true_party_order_signer' (388) panicked at src/hyper/runtime.rs:7310:9:
+B5 SECURITY PROPERTY VIOLATED: the equivocator that held party index 1              was NOT slashed; slashing resolved the index in lexicographic order instead
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+failures:
+    hyper::runtime::tests::slashing_must_slash_true_party_order_signer
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 1677 filtered out; finished in 0.91s
+
+error: test failed, to rerun pass `-p hypersnap --lib`

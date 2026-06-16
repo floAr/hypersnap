@@ -28,6 +28,19 @@ The maintainer (Cassandra Heart) landed a single fix commit [`5c25945`](https://
 
 See **[MERGE-BLOCKERS-5c25945.md](MERGE-BLOCKERS-5c25945.md)** — tailored merge-gate report with **runnable PoCs**. Assuming a single canonical deployment (F045 → Informational): **1 hard blocker** — F002 chain-halt (one captured epoch committee → permanent network-wide halt; reproduced via stack-overflow model, in-crate test authored for CI) — plus the **conditional** bridge-recovery cluster F049/F047/F048 (gate the merge only if owner/threshold-key-compromise recovery is a shipped guarantee; all three **reproduced with a passing Foundry test**, [poc/residual-5c25945-bridge/](poc/residual-5c25945-bridge/)). None of the bridge cluster was touched by the fix commit.
 
+## Fix status — follow-up commit `58fa604` ("audit update")
+
+A second fix commit [`58fa604`](https://github.com/farcasterorg/hypersnap/commit/58fa604bb5874d20a58e6fb10b4c9fad903d4b3d) (2026-06-14, **direct child of `5c25945`**) addresses the two post-`5c25945` items fixable in Rust. **Pure Rust — `HypersnapBridge.sol` still byte-identical to `cab225f`.** Full report: [REVALIDATION-58fa604.md](REVALIDATION-58fa604.md).
+
+- **F002 (High) — chain-halt self-recursion: FIXED.** `slashed_validators_for_epoch` no longer re-enters `get_active_validators_enforced`; cross-epoch blocks skipped, same-epoch indices resolved against the caller-passed active set. Clears the **sole unconditional merge blocker (B1)**. Ships a 256 KiB-stack regression test. (Trade: cross-epoch equivocators now under-slashed — authors accept this vs. permanent liveness kill.)
+- **F018 (Med) — DKLS shares freed un-scrubbed: core FIXED.** `impl Drop for Party` zeroizes `poly_point`/`session_id`; `DklsCurve: Scalar: Zeroize` wired; regression test. Residual: OT-precompute fields not explicitly zeroized (accepted scope).
+- **Bridge cluster unchanged:** F049/F047/F048 (B2–B4) and F045 remain exactly as after `5c25945` — the contract was not touched. F011 also untouched (still partial).
+- **★ NEW fix-induced regression (High) — build-verified:** slashing resolves `signer_indices` in **lexicographic** order while signing assigns them in **keccak-permuted** order (`committee_party_order`), so slashing attributes equivocation to the wrong validator (innocent slashed, real equivocator escapes). Introduced by the F025 fix in `5c25945`, carried through `58fa604`. PoC + passing regression test: [poc/residual-58fa604-slashing-index/](poc/residual-58fa604-slashing-index/).
+
+**Build verification (this round):** WSL/Linux build (rustc 1.95) — F002 small-stack test, F018 zeroize test, the `Scalar: Zeroize` trait-bound compile, and the new mis-attribution regression test all build and pass. Closes the prior rounds' "unbuilt" caveat.
+
+**Merge gate after `58fa604`:** the one unconditional blocker (B1/F002) is **cleared**, but a **new High-severity slashing regression** was found and confirmed this round. The merge now hinges on (a) the conditional bridge-recovery cluster B2–B4 (Solidity, untouched) and (b) the signer-index ordering fix in `slashed_validators_for_epoch`. Tailored merge-gate report: **[MERGE-BLOCKERS-58fa604.md](MERGE-BLOCKERS-58fa604.md)**.
+
 ## Reports
 - [REPORT.md](REPORT.md) — full report, all 23 findings.
 - [REPORT-critical-high.md](REPORT-critical-high.md) — condensed report: the 22 verified Critical/High findings.
