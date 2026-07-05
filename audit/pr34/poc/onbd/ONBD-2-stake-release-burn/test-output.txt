@@ -1,0 +1,25 @@
+$ cd ~/hs-573d671   # worktree at 573d671 + the two PoC tests, on WSL-native FS
+$ RUSTFLAGS="--cap-lints allow" cargo test -p hypersnap --lib -- \
+    onbd2_rejected_stake_release_must_not_burn_staked_atoms --nocapture --test-threads=1
+
+running 1 test (filtered from the 2-test PoC run)
+test hyper::runtime::tests::onbd2_rejected_stake_release_must_not_burn_staked_atoms ...
+thread 'hyper::runtime::tests::onbd2_rejected_stake_release_must_not_burn_staked_atoms' panicked at src/hyper/runtime.rs:6506:9:
+assertion `left == right` failed: ONBD-2: rejected stake release burned 5000000000 atoms (lock deleted before the nonce check, no refund)
+  left: 5000000000
+ right: 10000000000
+FAILED
+
+test result: FAILED. 0 passed; 1 failed; ...
+
+# RED as expected: the sponsor started with 10_000_000_000 atoms, locked
+# 5_000_000_000, then submitted a release with a stale nonce. The release was
+# correctly rejected (Err), but the lock was already deleted-and-committed
+# before the nonce check, so the 5_000_000_000 staked atoms were destroyed:
+# post-rejection value = 5_000_000_000 (remaining balance only, lock gone)
+# vs the required 10_000_000_000. Fixing the flow (validate nonce first; one
+# atomic batch) flips this test green.
+#
+# Build: rustc 1.95 under WSL; RUSTFLAGS="--cap-lints allow" (dodges an
+# unrelated ed448-bulletproofs lint-pass ICE); malachite sibling staged at
+# ~/malachite. Ran alongside onbd4 (both in the same 2-test invocation).

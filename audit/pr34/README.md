@@ -41,6 +41,32 @@ A second fix commit [`58fa604`](https://github.com/farcasterorg/hypersnap/commit
 
 **Merge gate after `58fa604`:** the one unconditional blocker (B1/F002) is **cleared**, but a **new High-severity slashing regression** was found and confirmed this round. The merge now hinges on (a) the conditional bridge-recovery cluster B2–B4 (Solidity, untouched) and (b) the signer-index ordering fix in `slashed_validators_for_epoch`. Tailored merge-gate report: **[MERGE-BLOCKERS-58fa604.md](MERGE-BLOCKERS-58fa604.md)**.
 
+## Fix status — follow-up commit `573d671` ("last pass of audit feedback + integrate hyper fid")
+
+Commit [`573d671`](https://github.com/farcasterorg/hypersnap/commit/573d671) (2026-06-29) has two halves. The **audit-feedback** half is clean; the **"integrate hyper fid"** half ships a large new subsystem (`src/hyper/native_onboard.rs`, +1585 lines) with its own new attack surface. Full report: [REVALIDATION-573d671.md](REVALIDATION-573d671.md); per-cluster detail: [materials/revalidation-573d671/](materials/revalidation-573d671/). (This round also merges in **PR #35** snapchain-v0.13.0 compat — parity-correct, no PR34 code impact.)
+
+- **★ B5 (High) — slashing signer-index order: FIXED.** `slashed_validators_for_epoch::resolve_signers` now resolves `signer_indices` through the keccak-permuted `committee_party_order`, matching signing. Correct-polarity security-property regression test (`slashing_resolves_signer_index_via_committee_party_order`).
+- **F070 (High) — custody-sig gate unwired: FIXED.** Production `submit_message` now builds the router `.with_custody_resolver(StoreBackedCustodyResolver::new(…))`, forcing the strict `validate_and_check_quota` custody cross-sign + per-FID quota path.
+- **Bridge cluster unchanged:** F049/F047/F048 (B2–B4) and F045 remain exactly as after `5c25945`/`58fa604` — `HypersnapBridge.sol` is still **byte-identical to `cab225f`**.
+
+### ★ NEW subsystem findings — hyper-native onboarding (`native_onboard.rs`)
+
+Applies authoritative **identity** + **economic** state at per-node gossip-ingestion, **outside the consensus `hyper_state_root`**. Audited by a 4-lane parallel specialist pass + adversarial validation of the top finding. **1 Critical, 1 High, 4 Medium, 1 Low/Info.**
+
+| ID | Sev | Verdict | Title |
+|----|-----|---------|-------|
+| [ONBD-1](findings/native-onboard/ONBD-1-offroot-per-node-fid-assignment-divergence.md) | critical | CONFIRMED (0.88, 6/6 refutations failed) | Onboarding assigns FIDs from a per-node global counter off the consensus root → honest nodes permanently disagree on custody→FID identity (also forks rotation + stake-binding); silent, unrecoverable |
+| [ONBD-2](findings/native-onboard/ONBD-2-stake-release-burns-staked-atoms-non-atomic.md) | high | CONFIRMED (0.9, ×3 lanes) | Stake release deletes+commits the lock before the fallible nonce check → stale nonce (routine on the shared nonce stream) or crash burns the sponsor's staked atoms, no refund |
+| [ONBD-3](findings/native-onboard/ONBD-3-stake-lock-free-mint-on-crash-non-atomic.md) | medium | CONFIRMED (0.78) | Stake lock commits before the balance debit → crash yields a free, releasable lock = net atom inflation |
+| [ONBD-4](findings/native-onboard/ONBD-4-rotate-then-replay-mints-unbounded-fids-one-pow.md) | med-high | PLAUSIBLE (0.7) | Rotate-then-replay: one POW solve mints unbounded FIDs (replay guard is the rotation-mutable custody index; no consumed-POW marker) |
+| [ONBD-5](findings/native-onboard/ONBD-5-weak-miscalibrated-22bit-sha256-pow.md) | medium | PLAUSIBLE (0.85) | 22-bit SHA-256 POW is ASIC/SHA-NI-trivial (~7 ms, not the "~30s" claimed) — weak sole sybil gate |
+| [ONBD-6](findings/native-onboard/ONBD-6-stake-arm-ingestion-ecrecover-dos-live-gate.md) | medium | PLAUSIBLE (0.75) | Stake arm does a full ecrecover before cheap rejection; unauthenticated, no rate-limit/size-cap; stake gate live despite "Phase-2 disabled" comment → ingestion CPU DoS |
+| [ONBD-7](findings/native-onboard/ONBD-7-failopen-decode-corrupt-fid-counter-reuse.md) | low | PLAUSIBLE (0.5) | Fail-open decode: corrupt FID counter silently resets issuance to base → FID reuse (corruption-only) |
+
+**Verified SOUND (negatives):** EIP-712 encoding & onboarding↔rotation/cross-deployment replay separation, chainId binding, `recover_custody`, gate-commitment binding, POW bit-math, ed25519 DSTs, custody-rotation auth, RootPrefix uniqueness (110/111/112/113/115), intra-node TOCTOU (single-actor), no double-value / FID-collision, amount conservation, **validator-Sybil amplification blocked** (custody resolver reads only snapchain `IdRegister`, which hyper-native FIDs lack).
+
+**Merge gate after `573d671`:** B5 and F070 **cleared**; F002/F018 intact. **New hard blockers B6 (ONBD-1, consensus divergence) and B7 (ONBD-2, deterministic fund loss)** — the onboarding subsystem should not ship until at least these two are fixed. Bridge cluster B2–B4 unchanged.
+
 ## Reports
 - [REPORT.md](REPORT.md) — full report, all 23 findings.
 - [REPORT-critical-high.md](REPORT-critical-high.md) — condensed report: the 22 verified Critical/High findings.
