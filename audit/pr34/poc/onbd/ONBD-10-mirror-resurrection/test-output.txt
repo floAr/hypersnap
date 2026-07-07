@@ -1,0 +1,14 @@
+### NEW-1 resurrection (red) — property VIOLATED on ab73681
+
+thread 'hyper::native_onboard::tests::onboard_replay_must_not_resurrect_rotated_away_custody_binding' (450) panicked at src/hyper/native_onboard.rs:1839:9:
+assertion `left == right` failed: REGRESSION: onboard replay resurrected rotated-away custody A -> fid 9223372036854775808 (mirror sync copied the never-cleared verkle binding back), defeating rotation-based revocation
+  left: Some(9223372036854775808)
+ right: None
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+--
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 1723 filtered out; finished in 0.60s
+
+error: test failed, to rerun pass `-p hypersnap --lib`

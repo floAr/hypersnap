@@ -1,0 +1,5 @@
+### ONBD-4 (green) — property holds on ab73681
+running 1 test
+test hyper::native_onboard::tests::onbd4_rotate_then_replay_via_tree_mints_no_second_fid ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1723 filtered out; finished in 0.59s

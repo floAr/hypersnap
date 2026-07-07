@@ -67,6 +67,30 @@ Applies authoritative **identity** + **economic** state at per-node gossip-inges
 
 **Merge gate after `573d671`:** B5 and F070 **cleared**; F002/F018 intact. **New hard blockers B6 (ONBD-1, consensus divergence) and B7 (ONBD-2, deterministic fund loss)** — the onboarding subsystem should not ship until at least these two are fixed. Bridge cluster B2–B4 unchanged.
 
+## Fix status — follow-up commit `ab73681` ("audit pass")
+
+Commit [`ab73681`](https://github.com/farcasterorg/hypersnap/commit/ab73681) (2026-07-07, direct child of `573d671`) responds to ONBD-1..7. **11 files, +531 / −103; no Solidity touched.** Full report: [REVALIDATION-ab73681.md](REVALIDATION-ab73681.md); per-cluster detail: [materials/revalidation-ab73681/](materials/revalidation-ab73681/). **WSL build-verified** (full crate clean; commit's `native_onboard` suite 17/17); 3 authored PoCs (2 green, 1 red).
+
+- **ONBD-1 (Critical) — FIXED (onboarding mechanism).** FID assignment moved off per-node gossip ingestion into deterministic block-import order, folded into the threshold-signed verkle root; import recomputes the root and rejects on `StateRootMismatch`. Old per-node assigner is dead in prod. **Clears B6.** *Incomplete for custody rotation* → see ONBD-9/10.
+- **ONBD-2 (High) — FIXED.** Stake-release delete staged into a single batch, committed only after the nonce check. **Clears B7.** Green PoC ([poc/onbd/ONBD-2-stake-release-burn/](poc/onbd/ONBD-2-stake-release-burn/) flips red→green).
+- **ONBD-3, ONBD-6 — FIXED; ONBD-7 — FIXED (core, 2 minor readers remain); ONBD-4 — FIXED (2nd-FID mint blocked, green PoC); ONBD-5 — PARTIAL (30-bit floor, still a soft gate; "governance-tunable" is doc-only).**
+- **Bridge cluster unchanged:** F049/F047/F048 (B2–B4) + F045 still **byte-identical to `cab225f`**.
+
+### ★ NEW fix-induced findings — hyper-native onboarding
+
+The ONBD-1 fix folded *onboarding* identity on-root but left *custody rotation* off-root. That single omission (+ the speculative produce path) yields **3 High + 1 Medium**, one build-verified with a red PoC.
+
+| ID | Sev | Title |
+|----|-----|-------|
+| [ONBD-9](findings/native-onboard/ONBD-9-rotation-off-root-divergence.md) | high | Custody rotation identity is off-root & applied at gossip ingestion → per-node divergence (ONBD-1 anti-pattern reintroduced for rotation; silent, no root-mismatch halt) |
+| [ONBD-10](findings/native-onboard/ONBD-10-onboard-replay-resurrects-rotated-custody.md) | high | Onboard replay resurrects a rotated-away custody→FID binding via the mirror sync → **rotation-based key revocation can be undone** (custody double-binding / FID re-capture). **Build-verified red PoC** ([poc/onbd/ONBD-10-mirror-resurrection/](poc/onbd/ONBD-10-mirror-resurrection/)) |
+| [ONBD-11](findings/native-onboard/ONBD-11-speculative-produce-tree-pollution-selfhalt.md) | high | Speculative `produce` mutates `self.tree` with no rollback; ONBD-1's global `seq` + permanent `ever` marker turn a losing-proposer divergence into an unrecoverable identity fork + self-halt |
+| [ONBD-12](findings/native-onboard/ONBD-12-aged-onboard-produce-import-asymmetry-stall.md) | med | Aged-onboard produce/import re-validation asymmetry + no mempool eviction → proposer stall |
+
+**Refuted (sound negatives):** verkle key collision · `next_hyper_fid` split-brain · double-apply self-halt · import-time nondeterminism fork · restart-replay ordering divergence.
+
+**Merge gate after `ab73681`:** **B6, B7 cleared.** **New hard blockers B8 (ONBD-9+10 — fold rotation into the signed root) and B9 (ONBD-11 — no rollback on speculative produce).** Bridge B2–B4 unchanged.
+
 ## Reports
 - [REPORT.md](REPORT.md) — full report, all 23 findings.
 - [REPORT-critical-high.md](REPORT-critical-high.md) — condensed report: the 22 verified Critical/High findings.
