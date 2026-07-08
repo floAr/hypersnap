@@ -113,6 +113,8 @@ Commit [`f4fc4af`](https://github.com/farcasterorg/hypersnap/commit/f4fc4af) (20
 
 **Merge gate after `f4fc4af`:** **B8 and B9 cleared. No native-onboarding merge blockers remain.** The three new findings are all Low hardening residuals. The merge now hinges solely on the **untouched Solidity bridge cluster B2–B4** (F049/F047/F048).
 
+**★ Consolidated merge readiness (current tip):** [MERGE-BLOCKERS-f4fc4af.md](MERGE-BLOCKERS-f4fc4af.md) — full B1–B9 roster. **6 of 9 blockers closed & build-verified; 3 open, all in the byte-identical bridge contract, all conditional.** No hard/unconditional blockers remain (B1 + B5 were the hard ones, both closed). Merge-ready from the consensus/Rust side; the sole gate is whether "recovery from owner/threshold-key compromise" is a shipped guarantee (if yes → fix B2–B4 first; if de-scoped → documented known-risk).
+
 ## Reports
 - [REPORT.md](REPORT.md) — full report, all 23 findings.
 - [REPORT-critical-high.md](REPORT-critical-high.md) — condensed report: the 22 verified Critical/High findings.
