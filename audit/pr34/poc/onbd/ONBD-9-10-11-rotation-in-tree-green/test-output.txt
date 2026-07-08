@@ -1,0 +1,22 @@
+$ cd ~/hs-f4fc4af   # WSL, malachite sibling staged (see audit notes)
+$ RUSTFLAGS="--cap-lints allow" cargo test -p hypersnap --lib -- \
+    onbd_four_way_rotation_apply_order_determinism --nocapture
+
+running 1 test
+test hyper::builder::tests::onbd_four_way_rotation_apply_order_determinism ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1723 filtered out; finished in 481.68s
+
+--- companion fix-confirmation tests (native_onboard), all green on f4fc4af ---
+$ RUSTFLAGS="--cap-lints allow" cargo test -p hypersnap --lib -- native_onboard
+
+test hyper::native_onboard::tests::custody_rotation_round_trip ... ok
+test hyper::native_onboard::tests::custody_rotation_rejects_unknown_current_custody ... ok
+test hyper::native_onboard::tests::custody_rotation_rejects_already_held_new_custody ... ok
+test hyper::native_onboard::tests::custody_rotation_requires_monotonic_nonce ... ok
+test hyper::native_onboard::tests::onboard_replay_must_not_resurrect_rotated_away_custody_binding ... ok
+test hyper::native_onboard::tests::onbd4_rotate_then_replay_via_tree_mints_no_second_fid ... ok
+test hyper::native_onboard::tests::rotation_nonce_persists_under_dedicated_prefix ... ok
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 1704 filtered out; finished in 0.94s
+
+--- broad regression suite (runtime/importer/mempool/builder/block_index) ---
+test result: ok. 170 passed; 0 failed; 0 ignored; 0 measured; 1553 filtered out; finished in 179.49s

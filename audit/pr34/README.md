@@ -91,6 +91,28 @@ The ONBD-1 fix folded *onboarding* identity on-root but left *custody rotation* 
 
 **Merge gate after `ab73681`:** **B6, B7 cleared.** **New hard blockers B8 (ONBD-9+10 — fold rotation into the signed root) and B9 (ONBD-11 — no rollback on speculative produce).** Bridge B2–B4 unchanged.
 
+## Fix status — follow-up commit `f4fc4af` ("Resolve last audit run")
+
+Commit [`f4fc4af`](https://github.com/farcasterorg/hypersnap/commit/f4fc4af) (2026-07-07, direct child of `ab73681`) responds to ONBD-9/10/11/12. **12 files, +540 / −130; no Solidity touched.** Full report: [REVALIDATION-f4fc4af.md](REVALIDATION-f4fc4af.md); per-cluster detail: [materials/revalidation-f4fc4af/](materials/revalidation-f4fc4af/). **WSL build-verified** (full crate clean; `native_onboard` 19/19; broad suite 170/170); green four-way-determinism PoC + ported red→green PoCs.
+
+- **ONBD-9 (High) — FIXED.** Custody rotation is now an on-root, block-ordered transition — the **exact fix direction recommended in ONBD-9**. New `HyperWireBlock.rotations` list flows through mempool → block → import like onboards; `apply_rotation_to_tree` tombstones the old custody (committed empty leaf), binds the new, sets `ever`, and advances an in-tree rotation nonce (domain `0x08`), all under the signed root; import re-validates + rejects on `StateRootMismatch`. **Clears half of B8.**
+- **ONBD-10 (High) — FIXED.** Tombstone-aware `read_onboard_custody_fid` + mirror-reflects-tree; the `ab73681` red PoC is now **green** (`onboard_replay_must_not_resurrect_rotated_away_custody_binding`). **Clears the other half of B8.**
+- **ONBD-11 (High) — FIXED.** `VerkleTree: Clone`; production builds against `scratch_tree = self.tree.clone()` (genuine deep copy); the only authoritative `self.tree` mutation is `import_block`. **Clears B9.**
+- **ONBD-12 (Med) — FIXED.** Produce-time re-validate-and-drop of aged onboards; `verify_anchor` is chain-state-derived (not wall-clock) so no produce/import asymmetry remains.
+- **Bridge cluster unchanged:** F049/F047/F048 (B2–B4) + F045 still **byte-identical to `cab225f`**.
+
+### ★ NEW fix-induced findings — all Low, non-blocking
+
+| ID | Sev | Title |
+|----|-----|-------|
+| [ONBD-13](findings/native-onboard/ONBD-13-mirror-sync-nonatomic-restart-desync.md) | low | Query-mirror sync is non-atomic with block persistence and not rebuilt on restart → self-healing query-index desync on a precisely-timed crash (non-consensus) |
+| [ONBD-14](findings/native-onboard/ONBD-14-noop-rotation-not-produce-filtered-reloop.md) | low | No-op rotations lack the ONBD-12 produce filter → re-loopable block-slot/ecrecover waste (deterministic no-op; PoW-FID-bounded) |
+| [ONBD-15](findings/native-onboard/ONBD-15-rotation-ecrecover-before-block-sig-check.md) | low | Rotation ecrecover runs (PoW-free) before the block signature check → CPU-only DoS; a minor new instance of a pre-existing pre-sig re-validation class |
+
+**Refuted (sound negatives):** same-block mirror inconsistency · tombstone/empty-value collision · rotation dedup censorship · submit-vs-import fork · `forget_rotation` stranding · rotation-amplified eviction · ONBD-7 readers driven to a wrong FID/stake bypass.
+
+**Merge gate after `f4fc4af`:** **B8 and B9 cleared. No native-onboarding merge blockers remain.** The three new findings are all Low hardening residuals. The merge now hinges solely on the **untouched Solidity bridge cluster B2–B4** (F049/F047/F048).
+
 ## Reports
 - [REPORT.md](REPORT.md) — full report, all 23 findings.
 - [REPORT-critical-high.md](REPORT-critical-high.md) — condensed report: the 22 verified Critical/High findings.
