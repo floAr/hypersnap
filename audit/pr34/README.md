@@ -115,6 +115,29 @@ Commit [`f4fc4af`](https://github.com/farcasterorg/hypersnap/commit/f4fc4af) (20
 
 **★ Consolidated merge readiness (current tip):** [MERGE-BLOCKERS-f4fc4af.md](MERGE-BLOCKERS-f4fc4af.md) — full B1–B9 roster. **6 of 9 blockers closed & build-verified; 3 open, all in the byte-identical bridge contract, all conditional.** No hard/unconditional blockers remain (B1 + B5 were the hard ones, both closed). Merge-ready from the consensus/Rust side; the sole gate is whether "recovery from owner/threshold-key compromise" is a shipped guarantee (if yes → fix B2–B4 first; if de-scoped → documented known-risk).
 
+## External review pass — `felirami` PR comments at `f4fc4af` (2026-07-11)
+
+Five `[P1]` inline review comments run through the validation process:
+[REVALIDATION-f4fc4af-review.md](REVALIDATION-f4fc4af-review.md) · per-finding
+detail [materials/revalidation-f4fc4af-review/](materials/revalidation-f4fc4af-review/).
+**4 confirmed, 1 partial; none refuted.** New IDs **F071–F075**.
+
+| ID | Sev | Title | PoC |
+|----|-----|-------|-----|
+| [F071](findings/F071-transfer-envelope-not-bound-output-pubkey-malleable.md) | High | Transfer admission+import verify bare `signing_payload()` → relay rewrites output `one_time_pubkey` (denial-of-funds) | RED [poc/F071-*](poc/F071-transfer-envelope-malleable/) |
+| [F072](findings/F072-confidential-note-recovery-data-absent-from-wire.md) | High (liveness) | Wire output omits `tx_pubkey`+encrypted payload → notes undiscoverable/unspendable | RED [poc/F072-*](poc/F072-note-unrecoverable-from-wire/) |
+| [F073](findings/F073-confidential-lock-wallet-builder-emits-non-validatable-messages.md) | High (broken-primitive) | Wallet `confidential_lock` builder emits wrong `blinding_diff`+empty `range_proof` → always rejected | RED [poc/F073-*](poc/F073-conf-lock-builder-rejected/) |
+| [F074](findings/F074-deployer-ui-unbuildable-missing-lib-modules-and-node-types.md) | Med | Deployer UI unbuildable (missing `src/lib/*` + `@types/node`) — peripheral tooling | build-verified |
+| [F075](findings/F075-commit-after-stage-block-failure-log-then-commit.md) | Low | Log-then-commit after `stage_block` failure — reachable impact = dropped 2ndary index only (PARTIAL) | spec only |
+
+**Merge-gate impact:** F071/F072/F073 form a **new conditional blocker cluster
+(B10–B12) on the confidential-transfer feature** — incomplete (F072/F073) *and*
+malleable (F071). Gates the merge only if that feature is in-scope/shipped this
+release (parallel to the bridge B2–B4 framing). All three RED-PoC-backed + WSL
+build-verified. F074 peripheral (not core-scope); F075 Low (not a blocker). Also
+**F036 → CLOSED at `f4fc4af`** (range-proof now wired). Full overlay in
+[MERGE-BLOCKERS-f4fc4af.md](MERGE-BLOCKERS-f4fc4af.md#overlay--external-review-pass-felirami-2026-07-11).
+
 ## Reports
 - [REPORT.md](REPORT.md) — full report, all 23 findings.
 - [REPORT-critical-high.md](REPORT-critical-high.md) — condensed report: the 22 verified Critical/High findings.
