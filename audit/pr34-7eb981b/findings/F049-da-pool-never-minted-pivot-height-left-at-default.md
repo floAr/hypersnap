@@ -16,9 +16,9 @@ related_findings:
 ---
 # F049 — The node scores DA-PoW against a boundary height computed with `PIVOT_HEIGHT_0 = 0`, because `params_for` keeps the PoQ default. On mainnet the pivot height is the snapchain shard-0 height (far above 25), so every validator's latency factor is 0, every DA score is 0, and the DA pool (50% of each epoch's emission, about 3.42M tokens per epoch at launch) is never minted or paid. Devnets with a shortened epoch hide the bug: there every response scores perfect latency.
 
-> **Status (2026-11-04):** Severity **High** (validated 0.9, HAS_CAVEATS). PoC: poc/F049 (build-backed, 4/4). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **High** (validated 0.9, HAS_CAVEATS). PoC: [poc/F049](../poc/F049/) (build-backed, 4/4). State: validated.
 
-> **Status 2026-11-04 (post-validation):** Severity High (validated 0.9). PoC: poc/F049 (4/4; the DA pool mints 0 of 3,424,657 tokens at pivot 5,000,000).
+> **Status 2026-11-04 (post-validation):** Severity High (validated 0.9). PoC: [poc/F049](../poc/F049/) (4/4; the DA pool mints 0 of 3,424,657 tokens at pivot 5,000,000).
 
 
 - **Severity:** High, source-only. No theft and no consensus split: every node computes the same zero. But one of the three work markets, the one FIP §9 calls "the foundation" and the validators' main protocol income, pays nothing from epoch 1, for good. Half of forward emission is never minted (FIP: an empty market "is not minted and does not roll over"). Fixing it after launch needs a coordinated release, because the `ScoringResult` is consensus.

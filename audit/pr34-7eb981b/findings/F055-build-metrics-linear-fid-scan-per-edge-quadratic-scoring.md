@@ -17,7 +17,7 @@ related_findings:
 ---
 # F055 — `build_metrics` checks each first-30-day engagement edge against the PoQ universe with `Vec::contains`, which is a linear scan of every registered FID (over 1M on mainnet), done once per edge on one thread. Scoring cost is O(edges_30d × |FIDs|). Because reactions are free (F054) and stores no longer prune, anyone can add edges. The result is needed by `boundary + SCORING_DELAY` (300 blocks). If it isn't ready, no node can propose or validate that shard-0 height, so a slow scoring run halts shard 0 at every epoch's scoring height until it finishes.
 
-> **Status (2026-11-04):** Severity **High** (validated 0.75, HAS_CAVEATS). PoC: poc/F055 (build-backed). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **High** (validated 0.75, HAS_CAVEATS). PoC: [poc/F055](../poc/F055/) (build-backed). State: validated.
 
 > **Status 2026-11-04 (post-validation):** Scale note: the arithmetic below assumes about 1.1M FIDs, but F019 measured 3,357,387 on mainnet, so every estimate grows about 3×, which may cross this finding's own "raise to High if over about an hour" line. Pending a timing run.
 

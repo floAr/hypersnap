@@ -16,9 +16,9 @@ related_findings:
 ---
 # F022 — Any gossip peer can replace the stored body of a proposal that consensus is about to decide. The undecided-value store is keyed only by the block's self-declared `hash`, a copy is written before it is validated, and `decide` commits whatever body is stored. On shards 1 and 2 every validator panics at commit (shard halt); on shard 0 every validator stores a corrupt block that no node can later sync.
 
-> **Status (2026-11-04):** Severity **Critical** (validated 0.85, HAS_CAVEATS). PoC: poc/F022 (build-backed, 7/7). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **Critical** (validated 0.85, HAS_CAVEATS). PoC: [poc/F022](../poc/F022/) (build-backed, 7/7). State: validated.
 
-> **Status 2026-11-04 (post-validation):** Severity Critical (validated). PoC: poc/F022 (7/7).
+> **Status 2026-11-04 (post-validation):** Severity Critical (validated). PoC: [poc/F022](../poc/F022/) (7/7).
 
 
 - **Severity:** Critical (shards 1/2: network-wide halt of the shard, repeatable at every height; shard 0: permanent sync failure at the attacked height, plus a panic on any node that takes the re-execution path). The attacker needs no key and no stake: only a libp2p connection to the `consensus` gossip topic, which the code does not restrict (see "Trust assumptions"). **Downgrade to High** if deployment puts validators behind a gossip allowlist so that only validators can publish on `consensus`; a single Byzantine validator can still do it then.

@@ -17,9 +17,9 @@ related_findings:
 ---
 # F024 — Nothing limits how many validators can join in one epoch. Seats cost no stake, and one FID gets up to 3. A burst of registrations in epoch N whose validators never sign makes up 1/3 or more of `set(N+2)`, and that halts every shard at the epoch N+2 boundary. Nothing in the protocol can recover from it. With more than 2/3, the attacker controls the chain and the bridge.
 
-> **Status (2026-11-04):** Severity **High** (validated 0.75, HAS_CAVEATS). PoC: poc/F024 (build-backed, 6/6). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **High** (validated 0.75, HAS_CAVEATS). PoC: [poc/F024](../poc/F024/) (build-backed, 6/6). State: validated.
 
-> **Status 2026-11-04 (post-validation):** Severity High (validated), **shard 0 only**: data shards continue under set(N+1). Bridge capture is not reachable at 7eb981b; it is a requirement on V2. PoC: poc/F024 (6/6; 1 FID × 3 seats halts a 4-member set, 3 FIDs × 9 seats capture shard 0).
+> **Status 2026-11-04 (post-validation):** Severity High (validated), **shard 0 only**: data shards continue under set(N+1). Bridge capture is not reachable at 7eb981b; it is a requirement on V2. PoC: [poc/F024](../poc/F024/) (6/6; 1 FID × 3 seats halts a 4-member set, 3 FIDs × 9 seats capture shard 0).
 
 
 - **Severity:** High (permanent, network-wide liveness loss with no in-protocol recovery. The attacker needs about `n_honest / 6` FIDs, each 90+ days old with trust ≥ 0.05). It would be Critical if the trust gate turns out to be easy to pass at scale, because the >2/3 capture then mints on the EVM bridge. It would be Medium if the bootstrap and honest set are large (hundreds) **and** the trust gate is strong. The trust assumptions are below.

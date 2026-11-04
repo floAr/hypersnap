@@ -16,9 +16,9 @@ related_findings:
 ---
 # F052 — The per-epoch miniapp-add counter goes up on every `MINIAPP_ADD` and never goes down on `MINIAPP_REMOVE`, and nothing caps it per epoch. One FID can alternate add and remove of the same miniapp, all free, and each add counts 5.0 × its credibility toward the miniapp owner's App-PoW work. One account (or a small set of them) can capture almost all of the AppUsage pool, which is 30% of each epoch's emission.
 
-> **Status (2026-11-04):** Severity **High** (validated 0.85, HAS_CAVEATS). PoC: poc/F052 (build-backed, 5/5). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **High** (validated 0.85, HAS_CAVEATS). PoC: [poc/F052](../poc/F052/) (build-backed, 5/5). State: validated.
 
-> **Status 2026-11-04 (post-validation):** Severity High (validated 0.85). PoC: poc/F052 (5/5; 200 churned adds take 64.5% of the AppUsage pool; control d shows byte-identical replays are accepted, see F076).
+> **Status 2026-11-04 (post-validation):** Severity High (validated 0.85). PoC: [poc/F052](../poc/F052/) (5/5; 200 churned adds take 64.5% of the AppUsage pool; control d shows byte-identical replays are accepted, see F076).
 
 
 - **Severity:** High, source-only. This is direct mis-allocation of minted tokens, about 2M tokens per epoch at launch (30% of `E0 ≈ 6.85M`), every epoch. No consensus split: every node computes the same, wrong, result. It is not Critical because the pool is bounded and nothing outside it can be drained.

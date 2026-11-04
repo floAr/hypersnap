@@ -17,9 +17,9 @@ related_findings:
 ---
 # F042 — A proposed data-shard block whose transaction holds two `Message`s with `data = None` panics every node that executes it. `replay_snapchain_txn` sorts user messages with `a.data.as_ref().unwrap()` before any validation.
 
-> **Status (2026-11-04):** Severity **Critical** (validated 0.8, HAS_CAVEATS). Preconditions: conditional: High if the consensus topic is validator-only. PoC: poc/F042 (build-backed, 6/6). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **Critical** (validated 0.8, HAS_CAVEATS). Preconditions: conditional: High if the consensus topic is validator-only. PoC: [poc/F042](../poc/F042/) (build-backed, 6/6). State: validated.
 
-> **Status 2026-11-04 (post-validation):** Severity **Critical** (validated 0.8; High if the consensus topic is validator-only). The panic stops the shard's Host actor, which has no supervisor; the process stays up and consensus for that shard is dead until a manual restart. Fixed upstream at snapchain f66b47c (`engine.rs:1589-1594`); cherry-pick. PoC: poc/F042 (6/6).
+> **Status 2026-11-04 (post-validation):** Severity **Critical** (validated 0.8; High if the consensus topic is validator-only). The panic stops the shard's Host actor, which has no supervisor; the process stays up and consensus for that shard is dead until a manual restart. Fixed upstream at snapchain f66b47c (`engine.rs:1589-1594`); cherry-pick. PoC: [poc/F042](../poc/F042/) (6/6).
 
 
 - **Category:** message-envelope robustness (X2: "every path that consumes `Message`")

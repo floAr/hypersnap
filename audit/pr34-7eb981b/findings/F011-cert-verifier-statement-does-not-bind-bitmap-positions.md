@@ -8,7 +8,7 @@ related_findings:
 ---
 # F011 — `ICertificateVerifier`'s statement is "each key in `signerBitmap` is a member of `setRoot`", but nothing fixes bit i to leaf i or fixes the member count; a verifier built to that statement can count one validator's key and signature many times
 
-> **Status (2026-11-04):** Severity **Medium** (unvalidated). PoC: none. State: pending-validation. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **Medium** (unvalidated). PoC: none. State: pending-validation.
 
 > **Status 2026-11-04 (post-validation):** Severity **Medium** (recalibrated 2026-11-04 from Low). Unsound route to the no-recovery state; see the F006 addendum.
 

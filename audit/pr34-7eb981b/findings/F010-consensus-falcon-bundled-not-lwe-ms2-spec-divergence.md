@@ -9,7 +9,7 @@ related_findings:
 ---
 # F010 — Consensus keys and commit certificates use Falcon-512 (bundled), not LWE-FSA / LWE-MS2 as FIP §16.2–§16.6 specify, so the CERT-STARK statement, cost model and security assumption in the spec no longer describe what the bridge must verify
 
-> **Status (2026-11-04):** Severity **Medium** (unvalidated). PoC: none. State: pending-validation. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **Medium** (unvalidated). PoC: none. State: pending-validation.
 
 > **Status 2026-11-04 (post-validation):** Severity **Medium** (recalibrated 2026-11-04 from Low). Over-strict route to the no-recovery state; see the F006 addendum.
 

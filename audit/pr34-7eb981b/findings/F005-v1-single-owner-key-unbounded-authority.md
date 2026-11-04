@@ -17,7 +17,7 @@ related_findings:
 ---
 # F005 — V1 bridge: one ECDSA key has instant, uncapped mint authority, and a single signature at `blockNumber = 2^64−1` disables `pause`, `cancelUpgrade` and `rotateOwner`, so the documented compromise recovery and the 48h upgrade timelock do not protect anything
 
-> **Status (2026-11-04):** Severity **High** (validated 0.85, HAS_CAVEATS). Preconditions: V1 owner key (single EOA by default, Deploy.s.sol:89-95) is compromised or misused; Honest-freeze variant needs an operator to sign a universal payload at blockNumber = 2^64-1 (e.g. -1/MAX sentinel); values well below MAX are recoverable; Planned DKLS23 threshold owner is not in the tree; if built and used, compromise would need a validator threshold. PoC: poc/F005 (foundry, 10/10). State: validated. Notes: owner applied both body corrections (claim 3 scoped to 2^64-1; red-team item 6 rating)
+> **Status (2026-11-04):** Severity **High** (validated 0.85, HAS_CAVEATS). Preconditions: V1 owner key (single EOA by default, Deploy.s.sol:89-95) is compromised or misused; Honest-freeze variant needs an operator to sign a universal payload at blockNumber = 2^64-1 (e.g. -1/MAX sentinel); values well below MAX are recoverable; Planned DKLS23 threshold owner is not in the tree; if built and used, compromise would need a validator threshold. PoC: [poc/F005](../poc/F005/) (foundry, 10/10). State: validated. Notes: owner applied both body corrections (claim 3 scoped to 2^64-1; red-team item 6 rating)
 
 > **Status 2026-11-04 (post-validation):** Severity **High** (recalibrated 2026-11-04 from Medium; impact if shipped). See the internal validation notes.
 
@@ -74,7 +74,7 @@ The README (`contracts/README.md:105-136`) and the NatSpec (`HypersnapBridge.sol
 3. *Can a pause placed before the poison help?* Only for 72h. The poison also blocks any later pause, so the upgrade runs once the earlier pause expires.
 4. *Is V1 really live after the pivot?* Yes. V2 cannot be built before `PivotRecord.set_root_epoch1` exists, and the upgrade path assumes the V1 proxy is the live token (`UpgradeToV2.s.sol:13-14`).
 5. *Is the inbound credit capped?* No supply or outstanding-balance check exists in `ledger.rs:749-770`. It checks only dedup and FID registration.
-6. *Overstatement check.* Without key compromise or misuse, nothing happens. The impact if shipped is Critical (direct theft and a permanent freeze); the key-compromise or operator-error precondition moves it one bucket down, so the rating is **High** (recalibrated 2026-11-04, validated with poc/F005 10/10). Uncapped minting by itself is the documented V1 trust model; the undocumented parts are the `2^64−1` recovery kill and the timelock giving no protection against an instant mint.
+6. *Overstatement check.* Without key compromise or misuse, nothing happens. The impact if shipped is Critical (direct theft and a permanent freeze); the key-compromise or operator-error precondition moves it one bucket down, so the rating is **High** (recalibrated 2026-11-04, validated with [poc/F005](../poc/F005/) 10/10). Uncapped minting by itself is the documented V1 trust model; the undocumented parts are the `2^64−1` recovery kill and the timelock giving no protection against an instant mint.
 
 ## Recommended fix
 

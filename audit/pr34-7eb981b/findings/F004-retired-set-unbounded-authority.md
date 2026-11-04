@@ -17,7 +17,7 @@ related_findings:
 ---
 # F004 — Retired validator sets keep full bridge authority forever: nothing binds `h.epoch` to `h.height`, so >2/3 of any past `set(e)` can mint without limit and push `latestHeight` / `lastActionHeight` to 2^64−1, which makes a malicious upgrade unstoppable
 
-> **Status 2026-11-04 (post-validation):** Severity High (validated, recalibration unchanged). Drop the body's argument that validator keys protect nothing after `UNSTAKING_PERIOD`; validators are stakeless. The defect is the missing `epoch(h)` binding plus uncapped watermarks. PoC: poc/F004 (Foundry, 12/12).
+> **Status 2026-11-04 (post-validation):** Severity High (validated, recalibration unchanged). Drop the body's argument that validator keys protect nothing after `UNSTAKING_PERIOD`; validators are stakeless. The defect is the missing `epoch(h)` binding plus uncapped watermarks. PoC: [poc/F004](../poc/F004/) (Foundry, 12/12).
 
 
 - **Severity:** High. The impact is Critical: unlimited SNAP mint, a permanent freeze of anchors, and an upgrade that the current validators cannot pause or cancel, so the attacker takes over the bridge. The precondition is that holders of more than 2/3 of the weight of *some past* epoch's set collude, or that their keys are compromised. That set has left the validator set, so it has no stake at risk (there is no equivocation slashing in `src`, see F002 H8). No time limit applies. This is a strictly weaker assumption than the one the spec states ("more than 2/3 of the validator weight is honest", §13.5, §13.7), and the spec does not intend it. If the program puts every ">2/3 validator collusion" scenario out of scope, rate this Medium. The design flaw still stands: the spec's mitigation of a malicious upgrade (§13.7) does not hold.

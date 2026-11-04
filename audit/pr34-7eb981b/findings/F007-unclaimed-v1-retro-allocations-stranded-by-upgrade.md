@@ -8,7 +8,7 @@ related_findings:
 ---
 # F007 — Unclaimed V1 retroactive allocations become permanently unclaimable at the V2 upgrade, and nothing on-chain or in the upgrade script checks that the retroactive distribution is complete (spec §10.1 assumes it is)
 
-> **Status (2026-11-04):** Severity **Low** (unvalidated). PoC: none. State: pending-validation. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **Low** (unvalidated). PoC: none. State: pending-validation.
 
 > **Status 2026-11-04 (post-validation):** Severity **Low** (recalibrated 2026-11-04 from Info).
 

@@ -15,7 +15,7 @@ related_findings:
 ---
 # F047 — After the pivot, the data-shard fee gate (`replica::charge_fee`) runs after the store merge has written to the block batch. When the fee check fails, `merge_message` returns an error, but the store writes stay in the batch and are committed. Only the trie update is skipped. Casts, links, reactions, user data and verifications from FIDs with no fee balance are therefore stored and served for free, and PoQ, which reads the stores, counts them. The trie and the stores also stop agreeing.
 
-> **Status (2026-11-04):** Severity **Low** (validated 0.8, HAS_CAVEATS). PoC: no path (source-only). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **Low** (validated 0.8, HAS_CAVEATS). PoC: no path (source-only). State: validated.
 
 > **Status 2026-11-04 (post-validation):** Severity **Low** (validated from Medium). Rescoped: fees are 0 for every non-cast type and for unique casts (F054), so the bug only fires for a near-duplicate CastAdd from a sender without fee balance. It becomes a Medium full fee bypass once F054 is fixed, so fix the two together. The LinkAdd/ReactionAdd and DA examples below do not apply. See the internal validation notes.
 

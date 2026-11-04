@@ -17,7 +17,7 @@ related_findings:
   - **Griefing.** Persistent reversal of a victim's later actions. Example: once a developer has unregistered a domain, they can never keep it registered under the same FID again. Example: once a user has removed an app, they can never keep it in their collection. Both last until the signing key is revoked, and for a migrated FID's account key that means a custody rotation, which resets the age clock.
 
   Not High, because the economic leg depends on F052's counter (fixing F052 cuts it to at most +1 per (epoch, owner, user)) and the griefing leg moves no funds.
-- **Confidence:** 0.8. Byte-identical replay of a `MINIAPP_ADD`/`MINIAPP_REMOVE` pair is **build-backed**: F052 PoC control (d), `poc/F052/README.md` (hash `5ded32ef…` re-accepted in a later block, counter 200 → 201). The `REGISTER`/`UNREGISTER` replays and the per-type table are source-only.
+- **Confidence:** 0.8. Byte-identical replay of a `MINIAPP_ADD`/`MINIAPP_REMOVE` pair is **build-backed**: F052 PoC control (d), [`poc/F052/README.md`](../poc/F052/README.md) (hash `5ded32ef…` re-accepted in a later block, counter 200 → 201). The `REGISTER`/`UNREGISTER` replays and the per-type table are source-only.
 - **Category:** message authentication / replay protection (missing nonce or seen-set on state-toggling messages)
 - **Specialist:** chain-economics follow-up (from the internal validation notes, "Open follow-ups")
 - **Target:** farcasterorg/hypersnap @ `7eb981b` (PR #34). **PR-introduced.** `src/chain/shard0/` (incl. `auth.rs`, `miniapp.rs`) does not exist in `bdef7b7`.
@@ -116,4 +116,4 @@ Bounds: realistic per-block inclusion (F052 caveats: the `enable_rate_limits` de
 - `src/chain/shard0/miniapp.rs:97-245` (register / unregister / update / add / remove)
 - `src/mempool/mempool.rs:449-490`, `src/storage/store/account/message.rs:50-89` (the duplicate check does not cover Hypersnap types)
 - Guards of the safe types: `ledger.rs:43-103, 484-490`, `registry.rs:256-318`, `validators.rs:21-27, 157, 262-283`, `work.rs:88-110, 162-173`, `seed.rs:67-114`, `bridge_actions.rs:48-80`, `onboarding.rs:395-424, 448-515`
-- Evidence: `poc/F052/README.md` (control d), the internal validation notes ("Open follow-ups")
+- Evidence: [`poc/F052/README.md`](../poc/F052/README.md) (control d), the internal validation notes ("Open follow-ups")

@@ -15,9 +15,9 @@ related_findings:
 ---
 # F014 — A burn to `bytes32(uint256(fid))`, the encoding the repo's own tests use, destroys the tokens on the EVM side, and the watcher skips it, so the FID is never credited
 
-> **Status (2026-11-04):** Severity **Medium** (validated 0.8, HAS_CAVEATS). PoC: poc/H011 (2/2). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **Medium** (validated 0.8, HAS_CAVEATS). PoC: [poc/H011](../poc/H011/) (2/2). State: validated.
 
-> **Status 2026-11-04 (post-validation):** Severity **Medium** (validated from High). Funds are frozen, not lost permanently: a coordinated node release can recover them. PoC: poc/H011.
+> **Status 2026-11-04 (post-validation):** Severity **Medium** (validated from High). Funds are frozen, not lost permanently: a coordinated node release can recover them. PoC: [poc/H011](../poc/H011/).
 
 
 - **Category:** loss-of-funds / spec-gap
@@ -80,7 +80,7 @@ layout, such as an EVM address padded into `bytes32`.
 
 ## Proof of concept
 
-`poc/H011/test/H011RecipientEncoding.t.sol` runs against the unmodified `HypersnapBridgeV2.sol`
+[`poc/H011/H011RecipientEncoding.t.sol`](../poc/H011/H011RecipientEncoding.t.sol) runs against the unmodified `HypersnapBridgeV2.sol`
 (byte-identical to `contracts/src`) through the repo's own `BridgeV2Test`
 harness. It burns 2 tokens with `bytes32(uint256(12_345))`, reads `topics[3]` of the emitted
 `Burned` log (the topic the watcher reads), and runs a line-for-line Solidity port of
@@ -91,7 +91,7 @@ harness. It burns 2 tokens with `bytes32(uint256(12_345))`, reads `topics[3]` of
 [PASS] test_rightAlignedFid_isBurnedButSkippedByWatcher()   // decoder returns None; totalSupply -2_000_000
 ```
 
-Output: `poc/H011/H011-forge-output.txt`. Run it with
+Output: [`poc/H011/H011-forge-output.txt`](../poc/H011/H011-forge-output.txt). Run it with
 `cd poc/H011 && forge test --match-contract H011 -vv`.
 
 ## Red-team walk
@@ -134,4 +134,4 @@ Pick one canonical layout and enforce it at the source:
 - `contracts/src/HypersnapBridgeV2.sol:316-328`; `contracts/src/HypersnapBridge.sol:374-386`
 - `contracts/test/HypersnapBridgeV2.t.sol:906, 936-954`; `contracts/test/Burn.t.sol:11`
 - `contracts/deployer-ui/src/components/BurnRunner.tsx:93, 182`
-- `poc/H011/test/H011RecipientEncoding.t.sol`, `poc/H011/H011-forge-output.txt`
+- [`poc/H011/H011RecipientEncoding.t.sol`](../poc/H011/H011RecipientEncoding.t.sol), [`poc/H011/H011-forge-output.txt`](../poc/H011/H011-forge-output.txt)

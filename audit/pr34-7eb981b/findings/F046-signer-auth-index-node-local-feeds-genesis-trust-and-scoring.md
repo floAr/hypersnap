@@ -18,9 +18,9 @@ related_findings:
 ---
 # F046 — The PoQ app filter (F0) reads `HyperSignerAuthByRequester` (prefix 83). That index is node-local: it is not in the state trie, and its contents depend on which release merged which events on this node. It feeds the epoch-1 trust snapshot at genesis (so `trust_snapshot_root` and `genesis_state_roots[0]`) and every later `ScoringResult`, which validators compare byte for byte. Nodes whose snapchain shard-0 DB came from the default upstream snapshot, from an older release, or from the manual `f0_backfill` tool compute different genesis records and scoring results.
 
-> **Status (2026-11-04):** Severity **High** (validated 0.75, HAS_CAVEATS). PoC: poc/F046 (build-backed, 5/5). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **High** (validated 0.75, HAS_CAVEATS). PoC: [poc/F046](../poc/F046/) (build-backed, 5/5). State: validated.
 
-> **Status 2026-11-04 (post-validation):** Severity High (validated 0.75): it fails closed at the pivot vote, but a latent split appears at scoring heights. PoC: poc/F046 (5/5).
+> **Status 2026-11-04 (post-validation):** Severity High (validated 0.75): it fails closed at the pivot vote, but a latent split appears at scoring heights. PoC: [poc/F046](../poc/F046/) (5/5).
 
 
 - **Severity:** High, source-only. This is liveness at the pivot and at every scoring height, with no fund loss.

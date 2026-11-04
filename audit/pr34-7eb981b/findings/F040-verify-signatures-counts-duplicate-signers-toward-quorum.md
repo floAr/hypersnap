@@ -20,7 +20,7 @@ related_findings:
 - **Category:** signature-quorum / regression-vs-upstream
 - **Specialist:** coordinator (from the F033 validation and the upstream check) · no hunt task
 - **Target:** farcasterorg/hypersnap @ `7eb981b` (PR #34). It is **introduced by the PR**: upstream snapchain main `f66b47c` and the fork base's snapchain content (v0.15.0) are not affected.
-- **PoC:** poc/F040/ (build-backed unit test, 5/5 pass). With n=4 Falcon validators, one validator's precommit repeated 3x (and 4x) makes `verify_signatures` return true. Controls: 3 distinct signers → true; 1 or 2 signers → false; a tampered copy → false. `try_to_commit_certificate` does not dedupe.
+- **PoC:** [poc/F040](../poc/F040/)/ (build-backed unit test, 5/5 pass). With n=4 Falcon validators, one validator's precommit repeated 3x (and 4x) makes `verify_signatures` return true. Controls: 3 distinct signers → true; 1 or 2 signers → false; a tampered copy → false. `try_to_commit_certificate` does not dedupe.
 
 ## Code facts
 

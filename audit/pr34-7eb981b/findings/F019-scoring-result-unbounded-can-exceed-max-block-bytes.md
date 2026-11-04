@@ -16,9 +16,9 @@ related_findings:
 ---
 # F019 — The `ScoringResult` has one entry per scored FID and goes into one fixed block with no size check. Once it is larger than `MAX_BLOCK_BYTES`, every honest proposal at `boundary + SCORING_DELAY` is rejected, and shard 0 halts permanently.
 
-> **Status (2026-11-04):** Severity **Critical** (validated 0.85, HAS_CAVEATS). PoC: poc/F019 (build-backed). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **Critical** (validated 0.85, HAS_CAVEATS). PoC: [poc/F019](../poc/F019/) (build-backed). State: validated.
 
-> **Status 2026-11-04 (post-validation):** Severity **Critical** (measured). At the mainnet FID count of 3,357,387, the real `scoring::compute` gives a 28,302,824 B `ScoringResult`, and `validate_body` returns `TooLarge`; the crossover is 2,098,977 FIDs. PoC: poc/F019. The body's ~1.1M-FID arithmetic predates the measurement.
+> **Status 2026-11-04 (post-validation):** Severity **Critical** (measured). At the mainnet FID count of 3,357,387, the real `scoring::compute` gives a 28,302,824 B `ScoringResult`, and `validate_body` returns `TooLarge`; the crossover is 2,098,977 FIDs. PoC: [poc/F019](../poc/F019/). The body's ~1.1M-FID arithmetic predates the measurement.
 
 
 - **Category:** proposer-validator-divergence (resource limit) / consensus-liveness

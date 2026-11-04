@@ -8,7 +8,7 @@ related_findings:
 ---
 # F006 — The universal V1 upgrade signature binds only a CREATE3 address, which does not commit to V2's verifier or epoch-1 set; the same signature installs a V2 with a different `CERTIFICATE_VERIFIER` on any chain where the implementation is deployed later
 
-> **Status (2026-11-04):** Severity **Medium** (unvalidated). PoC: none. State: pending-validation. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **Medium** (unvalidated). PoC: none. State: pending-validation.
 
 > **Status 2026-11-04 (post-validation):** Severity **Medium** (recalibrated 2026-11-04 from Low). See the addendum at the end: the immutable verifier has no recovery path.
 

@@ -17,9 +17,9 @@ related_findings:
 ---
 # F018 — The shard-0 proposer has no per-message size limit, but `validate_body` rejects any message over `MAX_MESSAGE_BYTES`. One oversized message, submitted for free to a validator's submit endpoint, makes that validator's next proposal invalid on every other node.
 
-> **Status (2026-11-04):** Severity **High** (validated 0.8, HAS_CAVEATS). PoC: poc/F018 (build-backed, 3/3). State: validated. Notes: v0.3 upgrade: supersede stale body status lines
+> **Status (2026-11-04):** Severity **High** (validated 0.8, HAS_CAVEATS). PoC: [poc/F018](../poc/F018/) (build-backed, 3/3). State: validated.
 
-> **Status 2026-11-04 (post-validation):** Severity High (validated). **The 2 × 550 KiB unknown-field recipe in the steps below is wrong** (prost drops unknown fields). Working routes, both build-backed in poc/F018 (3/3): (a) `data_bytes` padded with a well-formed unknown field to 1,048,560 B, encoded 1,048,761 B, giving `MessageTooLarge`; (b) an `Ed25519Falcon512` signature extension padded to about 1.2 MiB (`auth::open` never bounds `message.signature`).
+> **Status 2026-11-04 (post-validation):** Severity High (validated). **The 2 × 550 KiB unknown-field recipe in the steps below is wrong** (prost drops unknown fields). Working routes, both build-backed in [poc/F018](../poc/F018/) (3/3): (a) `data_bytes` padded with a well-formed unknown field to 1,048,560 B, encoded 1,048,761 B, giving `MessageTooLarge`; (b) an `Ed25519Falcon512` signature extension padded to about 1.2 MiB (`auth::open` never bounds `message.signature`).
 
 
 - **Severity:** High (shard-0 liveness). An unprivileged user with any FID that can sign one valid shard-0 message can do it. It costs nothing, because the message is never committed and so never pays a fee or uses a nonce, and the same message can be submitted again. One message kills one proposal round of the targeted validator. Keeping one message in every validator's mempool fails every round, which halts shard 0 for as long as the attack runs. **Downgrade to Medium** if validators do not expose the gRPC `SubmitMessage` or the `submit_address` endpoint to untrusted clients. Gossip alone cannot deliver such a message (see "Trust assumptions").
