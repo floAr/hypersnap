@@ -1,0 +1,24 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+   Compiling hypersnap v0.15.0 (<build-tree>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2m 53s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 3 tests
+test chain::f019_poc_test::f019_mainnet_scoring_result_exceeds_max_block_bytes ... F019: zero-activity mask = 0x79 (thresholds from zero cohort: EligibilityThresholds { engager_entropy_fp: 0, engagement_per_cast_fp: 0, new_user_share_fp: 0, replies_per_cast_fp: 0, cohort_size: 0 }); with default thresholds = 0x79
+F019: N=3357387 trust entries, ScoringResult.encoded_len() = 28102824 B (26.80 MiB); MAX_BLOCK_BYTES = 16777216 B; ratio = 1.675x; built in 376.554967ms
+F019: HypersnapSystemMessage(ScoringResult).encoded_len() = 28102829 B
+F019: proposer room = MAX_BLOCK_BYTES.saturating_sub(4096 + field_len(sys)) = 0
+F019: smallest N (FIDs 1..=N) whose shard-0 block exceeds MAX_BLOCK_BYTES = 2098977
+F019: sealed shard-0 block encoded_len = 28102908 B; validate_body = Err(TooLarge(28102908))
+ok
+test chain::f019_poc_test::f019_real_compute_at_mainnet_scale ... ignored
+test chain::f019_poc_test::f019_real_compute_keeps_every_zero_activity_fid ... F019: zero-activity mask = 0x79 (thresholds from zero cohort: EligibilityThresholds { engager_entropy_fp: 0, engagement_per_cast_fp: 0, new_user_share_fp: 0, replies_per_cast_fp: 0, cohort_size: 0 }); with default thresholds = 0x79
+F019 compute: N=10000 -> trust.len()=10000 (trust_fp>0: 10000), masks=["0x79"], rewards=0, encoded_len=109875 B (synthetic trust-only: 69875 B), 103.928577ms
+F019 compute: N=100000 -> trust.len()=100000 (trust_fp>0: 50000), masks=["0x79"], rewards=0, encoded_len=983492 B (synthetic trust-only: 783492 B), 900.109443ms
+ok
+
+test result: ok. 2 passed; 0 failed; 1 ignored; 0 measured; 1689 filtered out; finished in 110.10s
+
+EXIT 0

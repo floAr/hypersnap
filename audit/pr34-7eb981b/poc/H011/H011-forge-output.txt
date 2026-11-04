@@ -1,0 +1,6 @@
+Ran 2 tests for test/H011RecipientEncoding.t.sol:H011RecipientEncoding
+[PASS] test_leftAlignedFid_isCredited() (gas: 61868)
+[PASS] test_rightAlignedFid_isBurnedButSkippedByWatcher() (gas: 66001)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.99ms (340.90µs CPU time)
+
+Ran 1 test suite in 9.90ms (1.99ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)

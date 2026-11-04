@@ -1,0 +1,30 @@
+Compiling 62 files with Solc 0.8.24
+Solc 0.8.24 finished in 2.81s
+Compiler run successful with warnings:
+Warning (5740): Unreachable code.
+  --> lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol:94:9:
+   |
+94 |         _upgradeToAndCallUUPS(newImplementation, data);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/utils/BridgeTest.sol:124:5:
+    |
+124 |     function _sign(bytes32 digest, uint256 pk) internal returns (bytes memory) {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 10 tests for test/F005V1OwnerKey.t.sol:F005V1OwnerKeyTest
+[PASS] test_F005_honestRootAtMax_freezesAllGovernance() (gas: 712781)
+[PASS] test_F005_maxBlockPoison_upgradeUnstoppable_andSeizesHolders() (gas: 671991)
+[PASS] test_F005_prePoisonPause_onlyDelaysExecution() (gas: 570591)
+[PASS] test_F005_singleRootSig_mintsOnTwoChains() (gas: 6786961)
+[PASS] test_F005_singleSig_mintsUnbounded_noDelay() (gas: 196117)
+[PASS] test_control_executeBeforeDelayReverts() (gas: 566850)
+[PASS] test_control_maxMinusOne_stillCancellable() (gas: 535073)
+[PASS] test_control_msTimestampJump_recoverable() (gas: 566124)
+[PASS] test_control_nonOwnerRootRejected() (gas: 29734)
+[PASS] test_control_recoveryWorksWithoutPoison() (gas: 555653)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 27.44ms (64.73ms CPU time)
+
+Ran 1 test suite in 51.84ms (27.44ms CPU time): 10 tests passed, 0 failed, 0 skipped (10 total tests)

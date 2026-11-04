@@ -1,0 +1,18 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.32s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 4 tests
+test consensus::f033_poc_test::tests::f033_control_below_quorum_rejected ... F033 control: forged value with a below-quorum certificate -> committed = 0
+ok
+test consensus::f033_poc_test::tests::f033_control_genuine_value_accepted ... F033 control: genuine bound value -> committed = 1
+ok
+test consensus::f033_poc_test::tests::f033_forged_value_with_genuine_foreign_commits_is_committed ... F033: forged chunk (hash c881a16f) carrying a genuine quorum certificate for a different value (signed hash cd67e41a) -> process_decided_value committed = 1
+ok
+test consensus::f033_poc_test::tests::f033_version_exit_is_reachable_on_forged_block ... F033 secondary: validate_protocol_version(bad version) = false (false => exit)
+ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 1694 filtered out; finished in 0.84s
+

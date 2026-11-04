@@ -1,0 +1,39 @@
+﻿Compiling 65 files with Solc 0.8.24
+Solc 0.8.24 finished in 2.90s
+Compiler run successful with warnings:
+Warning (5740): Unreachable code.
+  --> lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol:94:9:
+   |
+94 |         _upgradeToAndCallUUPS(newImplementation, data);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/utils/BridgeTest.sol:124:5:
+    |
+124 |     function _sign(bytes32 digest, uint256 pk) internal returns (bytes memory) {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 12 tests for test/F004RetiredSet.t.sol:F004RetiredSetTest
+[PASS] test_F004_retiredSet1_anchorsForgedRoot_andMints() (gas: 245388)
+Logs:
+  F004 path1: minted to attacker: 1000000000000000000000000000000
+
+[PASS] test_F004_retiredSet1_freezesAnchorsForever() (gas: 510189)
+Logs:
+  F004 path2: latestHeight: 18446744073709551615
+
+[PASS] test_F004_retiredSet1_unstoppableUpgrade() (gas: 3768839)
+[PASS] test_F004_retiredSet2_stillAuthorisesAfterTwoMoreHandoffs() (gas: 655831)
+[PASS] test_control_currentSetAnchors() (gas: 198289)
+[PASS] test_control_currentSetCanPauseAndCancel() (gas: 3882145)
+[PASS] test_control_outsiderKeysRejected() (gas: 338241)
+[PASS] test_control_retiredKeysRejectedUnderCurrentEpochLabel() (gas: 131971)
+[PASS] test_control_retiredSetBelowQuorumRejected() (gas: 133274)
+[PASS] test_control_retiredSetStaleHeightRejected() (gas: 116159)
+[PASS] test_control_signaturesForOtherHeaderRejected() (gas: 174231)
+[PASS] test_control_unknownEpochRejected() (gas: 123101)
+Suite result: ok. 12 passed; 0 failed; 0 skipped; finished in 16.07ms (37.24ms CPU time)
+
+Ran 1 test suite in 17.43ms (16.07ms CPU time): 12 tests passed, 0 failed, 0 skipped (12 total tests)
+EXIT 0

@@ -1,0 +1,27 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+   Compiling hypersnap v0.15.0 (<build-tree>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 59s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 5 tests
+test chain::shard0::f052_poc_test::f052_churn_200_pairs_one_block_counter_200 ... F052 headline: block 104 (epoch 1) included 400 of 400 churn messages
+F052 headline: adds_by_epoch_key(1, 1000, 1000) = 200, MiniappState.add_count = 0
+F052 headline: reader.miniapp_add_events_for_epoch(1) = {(1000, 1000): 200}
+ok
+test chain::shard0::f052_poc_test::f052_control_double_add_rejected ... F052 control (a): in-block double add -> 1 of 2 included; next add -> Err(Invalid("the FID already added the miniapp"))
+ok
+test chain::shard0::f052_poc_test::f052_control_receipts_capped_at_100 ... F052 control (b): 101 receipts (epoch 1) -> 100 accepted
+ok
+test chain::shard0::f052_poc_test::f052_control_replay_and_epoch_isolation ... F052 control (d): replayed add_0/remove_0 (hash 5ded32ef0cac8c8229f24a61c75ca36e979663e4) in block epoch 1 -> 2 accepted
+F052 control (c): add in epoch 2: counter(2) = 1, counter(1) = 201
+ok
+test chain::shard0::f052_poc_test::f052_scoring_share_vs_max_honest_pair ... F052 scoring: k = 200 adds at cred 0.10 vs honest pair -> {1000: 645162, 2000: 354838} of 1,000,000
+F052 scoring: k = 2000 adds at cred 0.10 vs honest pair -> {1000: 947868, 2000: 52132} of 1,000,000
+F052 scoring control: k = 1 -> {1000: 9009, 2000: 990991}
+ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 1726 filtered out; finished in 16.35s
+
+EXIT 0

@@ -1,0 +1,22 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.36s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 6 tests
+test storage::store::f042_poc_test::tests::control_priority_split_does_not_panic ... F042 control (iii): priority split -> Ok(false)
+ok
+test storage::store::f042_poc_test::tests::control_single_data_less_message_does_not_panic ... F042 control (i): one data-less message -> Ok(false)
+ok
+test storage::store::f042_poc_test::tests::control_two_messages_with_data_do_not_panic ... F042 control (ii): two data-bearing messages -> Ok(false)
+ok
+test storage::store::f042_poc_test::tests::entry_point::check_value_panics_on_data_less_transaction ... F042 Test B: check_value(synced=false) panicked=true msg="called `Option::unwrap()` on a `None` value" stored_before_panic=true
+ok
+test storage::store::f042_poc_test::tests::entry_point::check_value_synced_returns_valid_without_executing ... F042 Test B control: check_value(synced=true) = Valid (structure only)
+ok
+test storage::store::f042_poc_test::tests::validate_state_change_panics_on_two_data_less_messages ... F042 Test A: two data-less messages -> Err("called `Option::unwrap()` on a `None` value")
+ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 1711 filtered out; finished in 1.26s
+

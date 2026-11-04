@@ -1,0 +1,29 @@
+# cargo test -p hypersnap --lib f022 -- --nocapture  (run 2: halt reproduction; RUSTFLAGS=--cap-lints allow, rustc 1.95.0)
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+   Compiling hypersnap v0.15.0 (<build-tree>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 40.92s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 7 tests
+test chain::f022_poc_test::value_id_is_not_bound_to_the_body_shard0 ... ok
+test chain::f022_poc_test::value_id_is_not_bound_to_the_body_shard1 ... ok
+test chain::f022_poc_test::unauthenticated_copy_overwrites_the_stored_honest_value ... ok
+test chain::f022_poc_test::decide_commits_the_overwritten_body_and_stores_a_corrupt_block ... 
+thread 'chain::f022_poc_test::decide_halts_when_copy_drops_the_honest_transaction' (1924) panicked at src/storage/store/engine.rs:3703:21:
+State change commit failed: merkle trie root hash mismatch
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+ok
+TEST A: panicked=true msg="State change commit failed: merkle trie root hash mismatch" block_at_h before=false after=false shard_halt=Some(ShardHalt { shard_id: 1, height: 4, unix_seconds: 1793716799, reason: "merkle trie root hash mismatch" })
+test chain::f022_poc_test::decide_halts_when_copy_drops_the_honest_transaction ... ok
+NEG CONTROL: panicked=false (expected false: events hash ignores non-block-event txns)
+test chain::f022_poc_test::no_halt_when_the_differing_txn_carries_no_block_event ... ok
+
+thread 'chain::f022_poc_test::decide_halts_when_copy_alters_the_honest_transaction' (1923) panicked at src/storage/store/engine.rs:3703:21:
+State change commit failed: merkle trie root hash mismatch
+TEST B: panicked=true msg="State change commit failed: merkle trie root hash mismatch" block_at_h before=false after=false shard_halt=Some(ShardHalt { shard_id: 1, height: 4, unix_seconds: 1793716799, reason: "merkle trie root hash mismatch" })
+test chain::f022_poc_test::decide_halts_when_copy_alters_the_honest_transaction ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 1677 filtered out; finished in 0.83s
+

@@ -1,0 +1,14 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.06s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 1 test
+F019 compute full: N=3357387 -> trust.len()=3357387 (trust_fp>0: 50000), rewards=0, encoded_len=28302824 B (26.99 MiB) in 30.158285736s
+F019 compute full: shard-0 block encoded_len = 28302908 B; validate_body = Err(TooLarge(28302908))
+test chain::f019_poc_test::f019_real_compute_at_mainnet_scale ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1691 filtered out; finished in 44.19s
+
+EXIT 0

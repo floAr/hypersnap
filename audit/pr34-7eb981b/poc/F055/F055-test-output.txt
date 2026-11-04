@@ -1,0 +1,28 @@
+# cmd: cargo test -p proof-of-quality --release --test f055_build_metrics_timing -- --nocapture --test-threads=1
+# F055_CONFIGS=high:5000,high:20000,high:50000,uniform:20000,low:20000,absent:20000 F055_N=3357387
+# host: 16 cores,  12th Gen Intel(R) Core(TM) i5-12600KF
+# rustc: rustc 1.95.0 (59807616e 2026-04-14)
+# date: 2026-11-04T08:55:11Z
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+   Compiling proof-of-quality v0.1.0 (<build-tree>/crates/proof-of-quality)
+    Finished `release` profile [optimized] target(s) in 1.67s
+     Running tests/f055_build_metrics_timing.rs (target/release/deps/f055_build_metrics_timing-fbd4f77fb570be94)
+
+running 1 test
+test f055_build_metrics_contains_timing ... F055 universe N=3357387 built in 0.5s
+F055 mode=high N=3357387 edges=5000 first30d_run=20.57s control_run=3.96s scan_cost=16.61s per_edge=3.322ms kept=5000
+F055 mode=high N=3357387 edges=20000 first30d_run=85.02s control_run=3.31s scan_cost=81.71s per_edge=4.086ms kept=20000
+F055 mode=high N=3357387 edges=50000 first30d_run=144.89s control_run=2.89s scan_cost=142.00s per_edge=2.840ms kept=50000
+F055 mode=uniform N=3357387 edges=20000 first30d_run=29.67s control_run=2.51s scan_cost=27.16s per_edge=1.358ms kept=20000
+F055 mode=low N=3357387 edges=20000 first30d_run=2.57s control_run=2.51s scan_cost=0.06s per_edge=0.003ms kept=20000
+F055 mode=absent N=3357387 edges=20000 first30d_run=73.27s control_run=3.08s scan_cost=70.19s per_edge=3.510ms kept=0
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 379.57s
+
+
+real	6m46.037s
+user	6m50.497s
+sys	0m26.233s

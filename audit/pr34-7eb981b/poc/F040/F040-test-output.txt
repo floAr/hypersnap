@@ -1,0 +1,23 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+   Compiling hypersnap v0.15.0 (<build-tree>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 25s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 5 tests
+test core::f040_poc_test::f040_control_single_signature_fails_quorum ... F040 control: n=4, 1 signature -> verify_signatures = false
+ok
+test core::f040_poc_test::f040_control_tampered_copy_is_rejected ... F040 control: 2 good copies + 1 tampered copy -> verify_signatures = false
+ok
+test core::f040_poc_test::f040_control_three_distinct_signers_meet_quorum ... F040 control: n=4, 3 distinct signers -> verify_signatures = true
+ok
+test core::f040_poc_test::f040_control_two_distinct_signers_fail_quorum ... F040 control: n=4, 2 distinct signers -> verify_signatures = false
+ok
+test core::f040_poc_test::f040_one_signer_repeated_three_times_meets_quorum ... F040: n=4, 1 distinct signer x3 copies -> verify_signatures = true
+F040: n=4, 1 distinct signer x4 copies -> verify_signatures = true
+ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 1684 filtered out; finished in 1.94s
+
+EXIT 0

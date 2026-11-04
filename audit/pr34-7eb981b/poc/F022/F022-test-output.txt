@@ -1,0 +1,18 @@
+# cargo test -p hypersnap --lib f022 -- --nocapture  (RUSTFLAGS=--cap-lints allow, rustc 1.95.0 (59807616e 2026-04-14))
+start 14:13:40
+   Compiling hypersnap v0.15.0 (<build-tree>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7m 22s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+running 5 tests
+test chain::f022_poc_test::value_id_is_not_bound_to_the_body_shard0 ... ok
+test chain::f022_poc_test::value_id_is_not_bound_to_the_body_shard1 ... ok
+test chain::f022_poc_test::unauthenticated_copy_overwrites_the_stored_honest_value ... ok
+test chain::f022_poc_test::decide_commits_the_overwritten_body_and_stores_a_corrupt_block ... ok
+test chain::f022_poc_test::decide_panics_when_the_copy_changes_the_transactions - should panic ... FAILED
+failures:
+---- chain::f022_poc_test::decide_panics_when_the_copy_changes_the_transactions stdout ----
+note: test did not panic as expected at src/chain/f022_poc_test.rs:266:10
+failures:
+    chain::f022_poc_test::decide_panics_when_the_copy_changes_the_transactions
+test result: FAILED. 4 passed; 1 failed; 0 ignored; 0 measured; 1677 filtered out; finished in 0.68s
+EXIT=101 14:21:31

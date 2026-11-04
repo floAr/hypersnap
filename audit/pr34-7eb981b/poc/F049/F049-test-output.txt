@@ -1,0 +1,27 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+   Compiling hypersnap v0.15.0 (<build-tree>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 20s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 4 tests
+test chain::f049_poc_test::f049_control_devnet_shape_masks_bug_and_ranking ... F049 control 2: devnet shape, heights 23..41, DA rows = {1001: 1712328767123, 1002: 1712328767123}
+ok
+test chain::f049_poc_test::f049_control_wired_pivot_mints_full_pool ... F049 control 1: pivot wired, pools(2).da = 3424657534246, DA rows = {1001: 2813111545988, 1002: 611545988258}, minted = 3424657534246
+ok
+test chain::f049_poc_test::f049_live_params_for_mints_no_da_pool ... F049 headline: Shard0Params pivot = 5000000, params_for(2).pivot_height_0 = 0, epoch_length_blocks = 36000
+F049 headline: da_score_fp(live boundary 36000) a = 0, b = 0
+F049 headline: pools(2).da = 3424657534246, ScoringResult.minted = 0, DA rows = {}
+F049 headline: mainnet schedule DA pool epoch 1 = 2397260273972, epoch 2 = 3424657534246 (micro-units)
+ok
+test chain::f049_poc_test::f049_threshold_any_pivot_at_least_window ... F049 threshold: P = 1, answers at boundary+0, DA rows = {1001: 1712328767123, 1002: 1712328767123}
+F049 threshold: P = 24, answers at boundary+0, DA rows = {1001: 1712328767123, 1002: 1712328767123}
+F049 threshold: P = 25, answers at boundary+0, DA rows = {}
+F049 threshold: P = 26, answers at boundary+0, DA rows = {}
+F049 threshold: P = 1000000, answers at boundary+0, DA rows = {}
+ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 1722 filtered out; finished in 0.89s
+
+EXIT 0

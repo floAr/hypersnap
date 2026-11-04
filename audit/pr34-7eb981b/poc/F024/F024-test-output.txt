@@ -1,0 +1,31 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+   Compiling hypersnap v0.15.0 (<build-tree>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 35.94s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 6 tests
+test chain::shard0::f024_poc_test::f024_control_fourth_attestation_rejected ... F024 control: 4th attestation -> Err(Invalid("the FID has MAX_NODES_PER_FID attestations"))
+ok
+test chain::shard0::f024_poc_test::f024_control_one_seat_chain_continues ... F024 control k=1 seats=1: |set(4)| = 5 (honest 4 + newcomers 1), total_weight = 5, honest quorum? true , newcomer-only quorum? false
+F024 control: tip height 163 in epoch 4 after 1 new seat
+ok
+test chain::shard0::f024_poc_test::f024_control_trust_gate_rejects_unscored_fid ... F024 control: unscored FID registration -> Err(Invalid("trust score is below min_validator_trust_score"))
+ok
+test chain::shard0::f024_poc_test::f024_one_fid_three_silent_seats_halts_shard0 ... F024 halt k=1 seats=3: |set(4)| = 7 (honest 4 + newcomers 3), total_weight = 7, honest quorum? false , newcomer-only quorum? false
+F024 halt: verify(all 4 honest signers) = Err(NoQuorum { weight: 4, total: 7 })
+F024 halt: child of an honest-only epoch-4 block -> Err("validate: invalid: signers have weight 4 of 7; more than 2/3 is needed")
+ok
+test chain::shard0::f024_poc_test::f024_three_fids_nine_seats_dominate_next_set ... F024 capture k=3 seats=3: |set(4)| = 13 (honest 4 + newcomers 9), total_weight = 13, honest quorum? false , newcomer-only quorum? true
+F024 capture: verify(all 4 honest) = Err(NoQuorum { weight: 4, total: 13 })
+F024 capture: verify(9 newcomers only) = Ok(())
+F024 capture: child of a newcomer-only epoch-4 block -> Ok(())
+ok
+test chain::shard0::f024_poc_test::f024_threshold_two_seats_halts_shard0 ... F024 threshold k=1 seats=2: |set(4)| = 6 (honest 4 + newcomers 2), total_weight = 6, honest quorum? false , newcomer-only quorum? false
+F024 threshold: verify(all 4 honest signers) = Err(NoQuorum { weight: 4, total: 6 })
+ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 1701 filtered out; finished in 18.54s
+
+EXIT 0

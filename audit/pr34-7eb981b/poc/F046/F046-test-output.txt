@@ -1,0 +1,27 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+   Compiling hypersnap v0.15.0 (<build-tree>)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 37.01s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 5 tests
+test chain::f046_poc_test::f046_control_99_users_equal_record_then_latent_scoring_split ... F046 control (99): records equal, pivot block accepted, p83 A=0 B=99
+F046 latent split: after 100th user on B only, ScoringResult equal = false; FID 1000 mask A = Some(121), B = Some(120)
+ok
+test chain::f046_poc_test::f046_control_no_increments_records_equal ... F046 control (no inc): records equal, B accepts A's pivot block
+ok
+test chain::f046_poc_test::f046_prefix83_divergence_splits_genesis_and_rejects_pivot_block ... F046 headline: record_differences(B, A) = ["genesis_state_roots", "trust_snapshot_root"]
+F046 headline: eligibility(1000) A = Some([121]), B = Some([120])
+F046 headline: B.validate(A's pivot block) -> Err(invalid: PivotRecord differs from this node's / Invalid("PivotRecord differs from this node's"))
+ok
+test chain::f046_poc_test::f046_step7_real_signer_events_snapshot_vs_merged ... F046 step7: OnChainEvent rows A = 214, B = 214; p83 A = 0, B = 100
+F046 step7: record_differences(B, A) = ["genesis_state_roots", "trust_snapshot_root"]
+F046 step7: B.validate(A's pivot block) -> Err(invalid: PivotRecord differs from this node's / Invalid("PivotRecord differs from this node's"))
+ok
+test chain::f046_poc_test::f046_trust_snapshot_f0_bit_flips ... F046 direct: FID 1000 eligibility mask A = Some(121), B = Some(120); roots A = e9cdba01f761ac60a62b6ddbbfe161b17aa92de194a3e2776f6d1e11c9225960, B = 0cbf198f7cae87ab3970e97c077e625e6e09b37e3825a6d9388aeca4d037284e
+ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 1717 filtered out; finished in 8.28s
+
+EXIT 0

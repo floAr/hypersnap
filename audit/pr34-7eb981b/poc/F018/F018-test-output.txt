@@ -1,0 +1,19 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   <build-tree>/crates/hypersnap-ktrie/Cargo.toml
+workspace: <build-tree>/Cargo.toml
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.39s
+     Running unittests src/lib.rs (target/debug/deps/hypersnap-a8cdc1d625e4e2cd)
+
+running 3 tests
+test chain::f018_poc_test::tests::f018_control_normal_message_validates ... F018 control: encoded message=208 (<= 1048576)
+F018 control: validate_body -> Ok(())
+ok
+test chain::f018_poc_test::tests::f018_route_a_data_bytes_padding ... F018 route (a): data_bytes=1048560 (<= 1048576), encoded message=1048761 (> 1048576), PULL_BYTES=15728640
+F018 route (a): validate_body -> MessageTooLarge(1048761)
+ok
+test chain::f018_poc_test::tests::f018_route_b_signature_extension_padding ... F018 route (b): data_bytes=9 (<= 1048576), signature=1200104 bytes, encoded message=1200179 (> 1048576)
+F018 route (b): validate_body -> MessageTooLarge(1200179)
+ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 1698 filtered out; finished in 0.51s
+
